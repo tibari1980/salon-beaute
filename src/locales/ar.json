@@ -7,7 +7,8 @@
         "contact": "اتصل بنا",
         "book": "حجز موعد",
         "bookNow": "احجزي الآن",
-        "login": "دخول"
+        "login": "دخول",
+        "register": "إنشاء حساب"
     },
     "hero": {
         "slides": [

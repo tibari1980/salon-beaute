@@ -99,9 +99,14 @@ export default function Navbar() {
                                 )}
                             </div>
                         ) : (
-                            <Link to="/connexion" className="btn btn-outline navbar-login-btn">
-                                {t('nav.login')}
-                            </Link>
+                            <div className="navbar-auth-buttons">
+                                <Link to="/connexion" className="navbar-login-link">
+                                    {t('nav.login')}
+                                </Link>
+                                <Link to="/inscription" className="btn btn-outline-gold navbar-register-btn">
+                                    {t('nav.register')}
+                                </Link>
+                            </div>
                         )}
 
                         <Link to="/reservation" className="btn btn-teal navbar-cta">

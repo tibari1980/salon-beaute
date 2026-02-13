@@ -7,7 +7,8 @@
         "contact": "Contact",
         "book": "Réserver",
         "bookNow": "Réserver maintenant",
-        "login": "Connexion"
+        "login": "Connexion",
+        "register": "S'inscrire"
     },
     "hero": {
         "slides": [

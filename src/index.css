@@ -321,6 +321,44 @@ select {
   font-size: 0.85rem !important;
 }
 
+.navbar-auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.navbar-login-link {
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar-login-link:hover {
+  color: var(--color-gold);
+}
+
+.btn-outline-gold {
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  background: transparent;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-xl);
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-outline-gold:hover {
+  background: var(--color-gold);
+  color: var(--color-black);
+  transform: translateY(-2px);
+}
+
 .navbar-toggle {
   display: none;
   flex-direction: column;
