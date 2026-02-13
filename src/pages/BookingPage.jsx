@@ -14,23 +14,6 @@ const serviceOptions = [
     { id: 'pedicure', name: 'Pédicure Spa', price: 200, duration: '55 min', icon: '🦶' },
 ];
 
-/* ... (unchanged code) ... */
-
-                                            <div className="booking-service-name">{s.name}</div>
-                                            <div className="booking-service-price">{s.price} MAD</div>
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
-                                        </div >
-                                    ))}
-                                </div >
-
-    /* ... (unchanged code) ... */
-
-    <div className="booking-summary-row">
-        <span>Total</span>
-        <span>{selectedService?.price} MAD</span>
-    </div>
-                                </div >
-
 const professionals = [
     { id: 'sophie', name: 'Sophie Laurent', role: 'Coiffeuse' },
     { id: 'marc', name: 'Marc Dubois', role: 'Barbier' },
