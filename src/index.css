@@ -2070,3 +2070,31 @@ html[dir="rtl"] .btn:hover::before {
   padding: 0.6rem 1.2rem;
   font-size: 0.9rem;
 }
+
+/* FIX: Force standard label layout (Label Top, Input Bottom) */
+.form-group.floating-label {
+  display: flex;
+  flex-direction: column-reverse;
+  /* Reverses the Input->Label HTML order to be Label->Input visual order */
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  position: static;
+  color: var(--color-gray-400);
+  pointer-events: auto;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.form-input:focus~.form-label,
+.form-input:not(:placeholder-shown)~.form-label {
+  color: var(--color-gold);
+  /* Remove generic movement */
+  top: auto;
+  left: auto;
+  background: transparent;
+}
