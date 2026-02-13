@@ -127,7 +127,7 @@ export default function DashboardPage() {
                             </div>
                             <div className="dashboard-stat-card">
                                 <div className="dashboard-stat-icon" style={{ background: 'rgba(96, 165, 250, 0.1)', color: '#60a5fa' }}>💰</div>
-                                <div className="dashboard-stat-value">{totalRevenue}€</div>
+                                <div className="dashboard-stat-value">{totalRevenue} Dhs</div>
                                 <div className="dashboard-stat-label">Revenus totaux</div>
                                 <div className="dashboard-stat-change positive">↑ En croissance</div>
                             </div>
@@ -202,12 +202,12 @@ export default function DashboardPage() {
                     <div className="profile-card">
                         <h3 className="profile-card-title">Gestion des services</h3>
                         {[
-                            { name: 'Coupe & Brushing', price: '35€', duration: '45 min', category: 'Coiffure' },
-                            { name: 'Coloration & Balayage', price: '65€', duration: '90 min', category: 'Coloration' },
-                            { name: 'Soin Éclat Premium', price: '55€', duration: '60 min', category: 'Soins' },
-                            { name: 'Manucure Prestige', price: '40€', duration: '50 min', category: 'Manucure' },
-                            { name: 'Maquillage Événement', price: '50€', duration: '45 min', category: 'Maquillage' },
-                            { name: 'Pédicure Spa', price: '45€', duration: '55 min', category: 'Pédicure' },
+                            { name: 'Coupe & Brushing', price: '200 Dhs', duration: '45 min', category: 'Coiffure' },
+                            { name: 'Coloration & Balayage', price: '450 Dhs', duration: '90 min', category: 'Coloration' },
+                            { name: 'Soin Éclat Premium', price: '350 Dhs', duration: '60 min', category: 'Soins' },
+                            { name: 'Manucure Prestige', price: '150 Dhs', duration: '50 min', category: 'Manucure' },
+                            { name: 'Maquillage Événement', price: '350 Dhs', duration: '45 min', category: 'Maquillage' },
+                            { name: 'Pédicure Spa', price: '200 Dhs', duration: '55 min', category: 'Pédicure' },
                         ].map((s, i) => (
                             <div key={i} className="appointment-item">
                                 <div>
