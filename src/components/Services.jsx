@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const images = [
     'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80',
@@ -12,12 +12,7 @@ const images = [
 
 export default function Services() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const items = t('services.items', { returnObjects: true });
-
-    const handleBooking = (serviceId) => {
-        navigate('/reservation', { state: { serviceId } });
-    };
 
     return (
         <section className="services section" id="services">
@@ -48,16 +43,13 @@ export default function Services() {
                                 <p className="service-card-desc">{service.description}</p>
                                 <div className="service-card-footer">
                                     <span className="service-card-duration">🕐 {service.duration}</span>
-                                    <a
-                                        href="/reservation"
+                                    <Link
+                                        to="/reservation"
+                                        state={{ serviceId: service.id }}
                                         className="service-card-link"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleBooking(service.id);
-                                        }}
                                     >
                                         {t('services.bookLink')}
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
