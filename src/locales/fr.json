@@ -69,6 +69,7 @@
         "bookLink": "Choisir →",
         "items": [
             {
+                "id": "coupe",
                 "category": "Coiffure",
                 "title": "Coupe & Brushing Inimitable",
                 "description": "Diagnostic visagiste, coupe sur mesure et brushing volume ou lisse longue tenue.",
@@ -76,6 +77,7 @@
                 "duration": "45 min"
             },
             {
+                "id": "lissage",
                 "category": "Lissage & Soins",
                 "title": "Lissage Protéine / Caviar",
                 "description": "Le secret des cheveux lisses et réparés. Sans formol, brillance miroir garantie.",
@@ -83,6 +85,7 @@
                 "duration": "3h"
             },
             {
+                "id": "coloration",
                 "category": "Coloration",
                 "title": "Ombré Hair & Balayage",
                 "description": "Technique de fondu ultra-naturel, babylights ou contouring pour illuminer votre visage.",
@@ -90,6 +93,7 @@
                 "duration": "2h30"
             },
             {
+                "id": "hammam",
                 "category": "Hammam & Spa",
                 "title": "Rituel Hammam Royal",
                 "description": "Gommage au savon noir, enveloppement Ghassoul aux 7 plantes et hydratation à l'huile d'argan.",
@@ -97,6 +101,7 @@
                 "duration": "1h15"
             },
             {
+                "id": "manucure",
                 "category": "Beauté des Mains",
                 "title": "Manucure Russe & Gel",
                 "description": "Nettoyage précis des cuticules et pose de Gel ou Vernis Permanent pour une tenue 3 semaines.",
@@ -104,6 +109,7 @@
                 "duration": "1h"
             },
             {
+                "id": "maquillage",
                 "category": "Make-up",
                 "title": "Maquillage Soirée / Libanais",
                 "description": "Un look sophistiqué pour vos événements: Contouring travaillé, regard intense et faux-cils.",
@@ -111,6 +117,151 @@
                 "duration": "1h"
             }
         ]
+    },
+    "team": {
+        "badge": "Nos Artistes",
+        "title": "L'Élite de la",
+        "titleHighlight": "Beauté",
+        "titleEnd": "au Maroc",
+        "subtitle": "Nos expertes sont régulièrement formées aux tendances mondiales (Dubaï, Paris, Beyrouth).",
+        "members": [
+            {
+                "name": "Kenza B.",
+                "role": "Coloriste Expert",
+                "bio": "La reine du blond polaire et de l'ombré hair à Casablanca. 8 ans d'expérience."
+            },
+            {
+                "name": "Sarah L.",
+                "role": "Spécialiste Lissage",
+                "bio": "Maîtrise parfaite des lissages (Tanin, Brésilien, Collagène). Diagnostic personnalisé."
+            },
+            {
+                "name": "Nadia H.",
+                "role": "Esthéticienne & Négafa",
+                "bio": "Experte en soins de la mariée et rituels du Hammam traditionnel."
+            },
+            {
+                "name": "Leila M.",
+                "role": "Nail Artist",
+                "bio": "Perfectionniste de la manucure russe et du Nail Art créatif."
+            }
+        ]
+    },
+    "testimonials": {
+        "badge": "Vos Avis",
+        "title": "Elles nous font",
+        "titleHighlight": "Confiance",
+        "subtitle": "La satisfaction de nos clientes casablancaises est notre priorité absolue.",
+        "items": [
+            {
+                "name": "Houda El Fassi",
+                "service": "Lissage Protéine",
+                "text": "Mes cheveux revivent ! Le lissage est juste incroyable, souples et brillants. Merci Sarah pour le conseil."
+            },
+            {
+                "name": "Salma Benjelloun",
+                "service": "Pack Mariée",
+                "text": "J'ai pris le pack mariée complet. Le Hammam était royal et mon maquillage a tenu toute la soirée. Une équipe au top !"
+            },
+            {
+                "name": "Yasmine Tazi",
+                "service": "Ombré Hair",
+                "text": "Enfin un salon à Casa qui maîtrise le blond sans abîmer les cheveux. Je recommande à 1000%."
+            }
+        ]
+    },
+    "cta": {
+        "title": "Révélez votre",
+        "titleHighlight": "Beauté",
+        "titleEnd": "dès aujourd'hui",
+        "text": "Places limitées. Réservez votre créneau pour un diagnostic gratuit ou votre soin favori.",
+        "book": "Réserver (24/7) →",
+        "call": "📞 05 22 00 00 00"
+    },
+    "footer": {
+        "brandDesc": "La référence beauté à Casablanca Maârif. Excellence, Hygiène et Satisfaction garantie.",
+        "navigation": "Plan du site",
+        "servicesTitle": "Nos tops soins",
+        "contactTitle": "Nous trouver",
+        "address": "Bd Al Massira Al Khadra",
+        "city": "20100 Casablanca, Maroc",
+        "phone": "+212 5 22 00 00 00",
+        "email": "rdv@jlbeauty.ma",
+        "hours": "Mar - Dim : 10h - 20h",
+        "closed": "Lundi : Fermé",
+        "home": "Accueil",
+        "services": "Carte des soins",
+        "team": "L'Équipe",
+        "booking": "Prendre RDV",
+        "reviews": "Témoignages",
+        "hairdressing": "Lissages & Soins",
+        "coloring": "Coloration & Mèches",
+        "facialCare": "Hammam & Spa",
+        "manicure": "Onglerie",
+        "makeup": "Mariage & Soirée",
+        "rights": "Tous droits réservés."
+    },
+    "auth": {
+        "login": "Connexion",
+        "register": "Inscription",
+        "email": "Email",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer mot de passe",
+        "fullName": "Nom complet",
+        "phone": "Téléphone (ex: 06...)",
+        "loginBtn": "Se connecter",
+        "registerBtn": "Créer mon compte",
+        "orWith": "Ou via",
+        "google": "Google",
+        "noAccount": "Pas encore cliente ?",
+        "hasAccount": "Déjà cliente ?",
+        "signupLink": "S'inscrire",
+        "loginLink": "Se connecter",
+        "joinSubtitle": "Rejoignez l'élégance"
+    },
+    "booking": {
+        "title": "Réservation en ligne",
+        "step1": "Prestation",
+        "step2": "Styliste",
+        "step3": "Date",
+        "step4": "Validation",
+        "errorPermission": "Vous n'avez pas la permission de réserver.",
+        "errorGeneric": "Une erreur est survenue. Veuillez réessayer.",
+        "errorDoubleBooking": "Ce créneau est déjà réservé pour ce professionnel. Veuillez choisir un autre créneau.",
+        "selectService": "Choisissez votre soin",
+        "selectPro": "Avec qui ?",
+        "selectDate": "Vos disponibilités",
+        "selectTime": "L'heure idéale",
+        "summary": "Votre RDV",
+        "service": "Soin",
+        "professional": "Expert(e)",
+        "date": "Jour",
+        "time": "Heure",
+        "total": "Prix estimé",
+        "confirm": "Confirmer le RDV",
+        "next": "Suivant",
+        "previous": "Retour",
+        "success": "RDV Confirmé !",
+        "thankYou": "À très vite chez JL Beauty",
+        "loadingStub": "Confirmation en cours...",
+        "ref": "Réf:",
+        "reminder": "Un rappel vous sera envoyé avant votre rendez-vous.",
+        "dashboardLink": "Mes rendez-vous",
+        "homeLink": "Retour à l'accueil",
+        "services": {
+            "coupe": "Coupe & Brushing",
+            "coloration": "Coloration & Balayage",
+            "lissage": "Lissage Protéine / Caviar",
+            "hammam": "Rituel Hammam Royal",
+            "manucure": "Manucure Prestige",
+            "maquillage": "Maquillage Événement"
+        },
+        "roles": {
+            "coiffeuse": "Coiffeuse",
+            "barbier": "Barbier",
+            "estheticienne": "Esthéticienne",
+            "manucuriste": "Manucuriste"
+        }
     },
     "team": {
         "badge": "Nos Artistes",

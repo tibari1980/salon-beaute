@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { useTranslation } from 'react-i18next';
@@ -7,11 +7,13 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const serviceOptions = [
-    { id: 'coupe', price: 200, duration: '45 min', icon: '✂️' },
-    { id: 'coloration', price: 450, duration: '90 min', icon: '🎨' },
+    { id: 'coupe', price: 250, duration: '45 min', icon: '✂️' },
+    { id: 'lissage', price: 1200, duration: '3h', icon: '🧬' },
+    { id: 'coloration', price: 600, duration: '2h30', icon: '🎨' },
+    { id: 'hammam', price: 350, duration: '1h15', icon: '🧖‍♀️' },
+    { id: 'manucure', price: 250, duration: '1h', icon: '💅' },
+    { id: 'maquillage', price: 500, duration: '1h', icon: '💄' },
     { id: 'soin', price: 350, duration: '60 min', icon: '✨' },
-    { id: 'manucure', price: 150, duration: '50 min', icon: '💅' },
-    { id: 'maquillage', price: 350, duration: '45 min', icon: '💄' },
     { id: 'pedicure', price: 200, duration: '55 min', icon: '🦶' },
 ];
 
@@ -39,6 +41,18 @@ export default function BookingPage() {
     const [bookingRef, setBookingRef] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Handle pre-selection from Services page
+    useEffect(() => {
+        if (location.state?.serviceId) {
+            const service = serviceOptions.find(s => s.id === location.state.serviceId);
+            if (service) {
+                setSelectedService(service);
+                // setStep(2); // Optional: Auto-advance
+            }
+        }
+    }, [location.state]);
 
     const handleBooking = async () => {
         // Check authentication
