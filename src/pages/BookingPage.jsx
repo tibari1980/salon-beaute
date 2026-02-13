@@ -6,12 +6,12 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const serviceOptions = [
-    { id: 'coupe', name: 'Coupe & Brushing', price: 250, duration: '45 min', icon: '✂️' },
-    { id: 'coloration', name: 'Coloration & Balayage', price: 650, duration: '90 min', icon: '🎨' },
-    { id: 'soin', name: 'Soin Éclat Premium', price: 550, duration: '60 min', icon: '✨' },
-    { id: 'manucure', name: 'Manucure Prestige', price: 250, duration: '50 min', icon: '💅' },
-    { id: 'maquillage', name: 'Maquillage Événement', price: 500, duration: '45 min', icon: '💄' },
-    { id: 'pedicure', name: 'Pédicure Spa', price: 300, duration: '55 min', icon: '🦶' },
+    { id: 'coupe', name: 'Coupe & Brushing', price: 200, duration: '45 min', icon: '✂️' },
+    { id: 'coloration', name: 'Coloration & Balayage', price: 450, duration: '90 min', icon: '🎨' },
+    { id: 'soin', name: 'Soin Éclat Premium', price: 350, duration: '60 min', icon: '✨' },
+    { id: 'manucure', name: 'Manucure Prestige', price: 150, duration: '50 min', icon: '💅' },
+    { id: 'maquillage', name: 'Maquillage Événement', price: 350, duration: '45 min', icon: '💄' },
+    { id: 'pedicure', name: 'Pédicure Spa', price: 200, duration: '55 min', icon: '🦶' },
 ];
 
 /* ... (unchanged code) ... */
@@ -153,7 +153,7 @@ export default function BookingPage() {
                                         >
                                             <div className="booking-service-icon">{s.icon}</div>
                                             <div className="booking-service-name">{s.name}</div>
-                                            <div className="booking-service-price">{s.price} MAD</div>
+                                            <div className="booking-service-price">{s.price} Dhs</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
                                         </div>
                                     ))}
@@ -267,7 +267,7 @@ export default function BookingPage() {
                                     </div>
                                     <div className="booking-summary-row">
                                         <span>Total</span>
-                                        <span>{selectedService?.price} MAD</span>
+                                        <span>{selectedService?.price} Dhs</span>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
