@@ -8,7 +8,7 @@ export default function About() {
                     <div className="about-image-wrapper">
                         <img
                             src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80"
-                            alt="Intérieur du salon BeautyConnect"
+                            alt="Intérieur du salon JL Beauty"
                             className="about-image"
                         />
                         <div className="about-image-accent" />
@@ -34,7 +34,7 @@ export default function About() {
                             Votre Salon de <span>Beauté</span> d'Exception
                         </h2>
                         <p className="about-text">
-                            Fondé avec la passion de sublimer chaque individu, BeautyConnect est bien plus qu'un salon de beauté.
+                            Fondé avec la passion de sublimer chaque individu, JL Beauty est bien plus qu'un salon de beauté.
                             C'est un espace où l'élégance rencontre l'expertise, où chaque visite est une expérience unique
                             de bien-être et de transformation.
                         </p>

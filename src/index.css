@@ -1,5 +1,5 @@
 /* ============================================
-   BeautyConnect - Design System
+   JL Beauty - Design System
    Inspired by dark teal elegant + noir artistique
    ============================================ */
 
@@ -94,7 +94,8 @@ a {
   transition: color var(--transition-fast);
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -112,7 +113,9 @@ button {
   transition: all var(--transition-base);
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: var(--font-body);
   outline: none;
   border: none;
@@ -387,12 +390,10 @@ input, textarea, select {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(13, 47, 47, 0.85) 0%,
-    rgba(10, 10, 10, 0.6) 50%,
-    rgba(10, 10, 10, 0.8) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(13, 47, 47, 0.85) 0%,
+      rgba(10, 10, 10, 0.6) 50%,
+      rgba(10, 10, 10, 0.8) 100%);
 }
 
 .hero-content {
@@ -1617,6 +1618,7 @@ input, textarea, select {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1624,8 +1626,13 @@ input, textarea, select {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scrollLine {
@@ -1633,13 +1640,16 @@ input, textarea, select {
     transform: scaleY(0);
     transform-origin: top;
   }
+
   50% {
     transform: scaleY(1);
     transform-origin: top;
   }
+
   51% {
     transform-origin: bottom;
   }
+
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
@@ -1647,8 +1657,15 @@ input, textarea, select {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .animate-on-scroll {

@@ -53,7 +53,7 @@ export default function Footer() {
                             </div>
                             <div className="footer-contact-item">
                                 <span className="footer-contact-icon">✉️</span>
-                                <span>contact@beautyconnect.fr</span>
+                                <span>contact@jlbeauty.fr</span>
                             </div>
                             <div className="footer-contact-item">
                                 <span className="footer-contact-icon">🕐</span>

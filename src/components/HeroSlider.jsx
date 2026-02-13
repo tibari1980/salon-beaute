@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const slides = [
     {
         image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80',
-        badge: 'Bienvenue chez BeautyConnect',
+        badge: 'Bienvenue chez JL Beauty',
         title: <>Sublimez votre <span>Beauté</span> Naturelle</>,
         description: 'Découvrez un espace dédié à votre bien-être. Nos experts vous accompagnent pour révéler votre éclat naturel avec des soins personnalisés.',
     },

@@ -25,7 +25,7 @@ export default function Navbar() {
             <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
                 <div className="container">
                     <Link to="/" className="navbar-logo">
-                        Beauty<span>Connect</span>
+                        JL <span>Beauty</span>
                     </Link>
 
                     <div className="navbar-links">

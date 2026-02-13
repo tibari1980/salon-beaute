@@ -2,6 +2,7 @@
   "name": "salon-coifure",
   "private": true,
   "version": "1.0.0",
+  "description": "JL Beauty - Application salon de beauté et coiffure",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,4 +1,4 @@
-# PRD – Application Web et Mobile "BeautyConnect"
+# PRD – Application Web et Mobile "JL Beauty"
 
 **Client :** Salon de coiffure & beauté  
 **Date :** 12 février 2026  
@@ -8,7 +8,7 @@
 
 ## 1. Objectif du produit
 
-L'application **BeautyConnect** offre une expérience fluide aux clients d'un salon de beauté : **prise de rendez-vous en ligne, gestion des prestations** et **fidélisation**. Elle permet aux clients de réserver simplement, et au personnel du salon d'administrer efficacement les services, disponibilités et paiements.
+L'application **JL Beauty** offre une expérience fluide aux clients d'un salon de beauté : **prise de rendez-vous en ligne, gestion des prestations** et **fidélisation**. Elle permet aux clients de réserver simplement, et au personnel du salon d'administrer efficacement les services, disponibilités et paiements.
 
 **Objectifs principaux :**
 - Digitaliser la gestion des rendez-vous et des prestations
