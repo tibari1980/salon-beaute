@@ -8,6 +8,8 @@ import BookingPage from './pages/BookingPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 
+import ScrollToTop from './components/ScrollToTop';
+
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 export default function App() {
@@ -21,6 +23,7 @@ export default function App() {
 
     return (
         <Router>
+            <ScrollToTop />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/connexion" element={<LoginPage />} />
