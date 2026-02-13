@@ -1,4 +1,21 @@
 {
+    "profile": {
+        "title": "ملفي الشخصي",
+        "logout": "تسجيل الخروج",
+        "appointments": "مواعيدي",
+        "noAppointments": "لا توجد مواعيد حالياً.",
+        "loyaltyProgram": "برنامج الوفاء",
+        "loyaltyPoints": "نقاط الوفاء",
+        "nextReward": "✨ المكافأة القادمة عند 100 نقطة: -15% على خدمتك القادمة",
+        "loading": "جاري التحميل...",
+        "errorLoad": "تعذر تحميل المواعيد.",
+        "status": {
+            "confirmed": "مؤكد",
+            "pending": "قيد الانتظار",
+            "completed": "مكتمل",
+            "cancelled": "ملغى"
+        }
+    },
     "nav": {
         "home": "الرئيسية",
         "services": "خدماتنا",
@@ -284,23 +301,6 @@
             "available": "متاح",
             "busy": "مشغول",
             "break": "في استراحة"
-        }
-    },
-    "profile": {
-        "title": "ملفي الشخصي",
-        "logout": "تسجيل الخروج",
-        "appointments": "مواعيدي",
-        "noAppointments": "لا توجد مواعيد حالياً.",
-        "loyaltyProgram": "برنامج الوفاء",
-        "loyaltyPoints": "نقاط الوفاء",
-        "nextReward": "✨ المكافأة القادمة عند 100 نقطة: -15% على خدمتك القادمة",
-        "loading": "جاري التحميل...",
-        "errorLoad": "تعذر تحميل المواعيد.",
-        "status": {
-            "confirmed": "مؤكد",
-            "pending": "قيد الانتظار",
-            "completed": "مكتمل",
-            "cancelled": "ملغى"
         }
     }
 }
