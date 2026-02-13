@@ -43,6 +43,11 @@ export default function BookingPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }, []);
+
     // Handle pre-selection from Services page
     useEffect(() => {
         if (location.state?.serviceId) {
