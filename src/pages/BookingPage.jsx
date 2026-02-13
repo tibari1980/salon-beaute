@@ -2,23 +2,24 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const serviceOptions = [
-    { id: 'coupe', name: 'Coupe & Brushing', price: 200, duration: '45 min', icon: '✂️' },
-    { id: 'coloration', name: 'Coloration & Balayage', price: 450, duration: '90 min', icon: '🎨' },
-    { id: 'soin', name: 'Soin Éclat Premium', price: 350, duration: '60 min', icon: '✨' },
-    { id: 'manucure', name: 'Manucure Prestige', price: 150, duration: '50 min', icon: '💅' },
-    { id: 'maquillage', name: 'Maquillage Événement', price: 350, duration: '45 min', icon: '💄' },
-    { id: 'pedicure', name: 'Pédicure Spa', price: 200, duration: '55 min', icon: '🦶' },
+    { id: 'coupe', price: 200, duration: '45 min', icon: '✂️' },
+    { id: 'coloration', price: 450, duration: '90 min', icon: '🎨' },
+    { id: 'soin', price: 350, duration: '60 min', icon: '✨' },
+    { id: 'manucure', price: 150, duration: '50 min', icon: '💅' },
+    { id: 'maquillage', price: 350, duration: '45 min', icon: '💄' },
+    { id: 'pedicure', price: 200, duration: '55 min', icon: '🦶' },
 ];
 
 const professionals = [
-    { id: 'sophie', name: 'Sophie Laurent', role: 'Coiffeuse' },
-    { id: 'marc', name: 'Marc Dubois', role: 'Barbier' },
-    { id: 'amira', name: 'Amira Benali', role: 'Esthéticienne' },
-    { id: 'clara', name: 'Clara Martin', role: 'Manucuriste' },
+    { id: 'sophie', name: 'Sophie Laurent', roleId: 'coiffeuse' },
+    { id: 'marc', name: 'Marc Dubois', roleId: 'barbier' },
+    { id: 'amira', name: 'Amira Benali', roleId: 'estheticienne' },
+    { id: 'clara', name: 'Clara Martin', roleId: 'manucuriste' },
 ];
 
 const timeSlots = [
@@ -27,6 +28,7 @@ const timeSlots = [
 ];
 
 export default function BookingPage() {
+    const { t, i18n } = useTranslation();
     const [step, setStep] = useState(1);
     const [selectedService, setSelectedService] = useState(null);
     const [selectedPro, setSelectedPro] = useState(null);
@@ -39,19 +41,15 @@ export default function BookingPage() {
     const navigate = useNavigate();
 
     const handleBooking = async () => {
-        console.log("handleBooking called");
-        console.log("Current user:", auth.currentUser);
-
         // Check authentication
         if (!auth.currentUser) {
-            console.log("No user, redirecting to login");
             navigate('/connexion');
             return;
         }
 
         // Validate all fields
         if (!selectedService || !selectedPro || !selectedDate || !selectedTime) {
-            setError('Veuillez compléter toutes les étapes avant de confirmer.');
+            setError(t('booking.errorIncomplete') || 'Veuillez compléter toutes les étapes.');
             return;
         }
 
@@ -61,9 +59,9 @@ export default function BookingPage() {
         try {
             const docRef = await addDoc(collection(db, 'appointments'), {
                 userId: auth.currentUser.uid,
-                userName: auth.currentUser.displayName || 'Client',
+                userName: auth.currentUser.displayName || t('booking.client'),
                 userEmail: auth.currentUser.email || '',
-                service: selectedService.name,
+                service: t(`booking.services.${selectedService.id}`, { lng: 'fr' }), // Store in French or ID? Storing French for admin clarity
                 serviceId: selectedService.id,
                 servicePrice: selectedService.price,
                 serviceDuration: selectedService.duration,
@@ -83,22 +81,20 @@ export default function BookingPage() {
         } catch (err) {
             console.error('Booking error:', err);
             if (err.code === 'permission-denied') {
-                setError('Erreur de permission. Veuillez vous reconnecter.');
+                setError(t('booking.errorPermission'));
             } else {
-                setError('Une erreur est survenue lors de la réservation. Veuillez réessayer.');
+                setError(t('booking.errorGeneric'));
             }
         } finally {
             setLoading(false);
         }
     };
 
-    // Format date for display (e.g., "28 Février 2026")
+    // Format date for display
     const formatDate = (dateStr) => {
         if (!dateStr) return '';
-        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-            'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-        const [year, month, day] = dateStr.split('-');
-        return `${parseInt(day)} ${months[parseInt(month) - 1]} ${year}`;
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateStr).toLocaleDateString(i18n.language === 'ar' ? 'ar-MA' : 'fr-FR', options);
     };
 
     // ──────────────── SUCCESS SCREEN ────────────────
@@ -106,7 +102,7 @@ export default function BookingPage() {
         return (
             <>
                 <Navbar />
-                <div className="booking-page">
+                <div className={`booking-page ${i18n.language === 'ar' ? 'rtl' : ''}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                     <div className="container" style={{ textAlign: 'center', paddingTop: '80px', paddingBottom: '80px' }}>
                         {/* Animated checkmark */}
                         <div style={{
@@ -126,7 +122,7 @@ export default function BookingPage() {
                         </div>
 
                         <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>
-                            Réservation <span>Confirmée</span> !
+                            {t('booking.success')}
                         </h2>
 
                         {bookingRef && (
@@ -142,7 +138,7 @@ export default function BookingPage() {
                                 fontWeight: 600,
                                 letterSpacing: '1px',
                             }}>
-                                Réf: {bookingRef}
+                                {t('booking.ref')} {bookingRef}
                             </div>
                         )}
 
@@ -154,45 +150,40 @@ export default function BookingPage() {
                             border: '1px solid rgba(255,255,255,0.08)',
                             borderRadius: '16px',
                             padding: '1.5rem',
-                            textAlign: 'left',
+                            textAlign: i18n.language === 'ar' ? 'right' : 'left',
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                                <span style={{ color: 'var(--color-gray-500)' }}>Service</span>
-                                <span style={{ fontWeight: 600 }}>{selectedService?.icon} {selectedService?.name}</span>
+                                <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.service')}</span>
+                                <span style={{ fontWeight: 600 }}>{selectedService?.icon} {t(`booking.services.${selectedService?.id}`)}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                                <span style={{ color: 'var(--color-gray-500)' }}>Professionnel</span>
+                                <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.professional')}</span>
                                 <span style={{ fontWeight: 600 }}>{selectedPro?.name}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                                <span style={{ color: 'var(--color-gray-500)' }}>Date</span>
+                                <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.date')}</span>
                                 <span style={{ fontWeight: 600 }}>{formatDate(selectedDate)}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                                <span style={{ color: 'var(--color-gray-500)' }}>Heure</span>
+                                <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.time')}</span>
                                 <span style={{ fontWeight: 600 }}>{selectedTime}</span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                                <span style={{ color: 'var(--color-gray-500)' }}>Durée</span>
-                                <span style={{ fontWeight: 600 }}>{selectedService?.duration}</span>
-                            </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0' }}>
-                                <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>Total</span>
+                                <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{t('booking.total')}</span>
                                 <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{selectedService?.price} Dhs</span>
                             </div>
                         </div>
 
                         <p style={{ color: 'var(--color-gray-500)', marginBottom: '2rem', fontSize: '0.9rem' }}>
-                            Un rappel vous sera envoyé avant votre rendez-vous. <br />
-                            Vous pouvez consulter vos réservations dans votre tableau de bord.
+                            {t('booking.reminder')}
                         </p>
 
                         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                             <button className="btn btn-outline" onClick={() => navigate('/profil')}>
-                                📋 Mes rendez-vous
+                                📋 {t('booking.dashboardLink')}
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/')}>
-                                🏠 Retour à l'accueil
+                                🏠 {t('booking.homeLink')}
                             </button>
                         </div>
                     </div>
@@ -206,12 +197,12 @@ export default function BookingPage() {
     return (
         <>
             <Navbar />
-            <div className="booking-page">
+            <div className={`booking-page ${i18n.language === 'ar' ? 'rtl' : ''}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                 <div className="container">
                     <div className="section-header" style={{ paddingTop: '20px' }}>
-                        <span className="section-subtitle">Réservation</span>
+                        <span className="section-subtitle">{t('booking.title')}</span>
                         <h2 className="section-title">
-                            Réservez Votre <span>Rendez-vous</span>
+                            {t('cta.book')}
                         </h2>
                     </div>
 
@@ -219,22 +210,22 @@ export default function BookingPage() {
                     <div className="booking-steps">
                         <div className={`booking-step ${step >= 1 ? 'active' : ''} ${step > 1 ? 'completed' : ''}`}>
                             <span className="booking-step-number">{step > 1 ? '✓' : '1'}</span>
-                            <span>Service</span>
+                            <span>{t('booking.step1')}</span>
                         </div>
                         <div className="booking-step-line" />
                         <div className={`booking-step ${step >= 2 ? 'active' : ''} ${step > 2 ? 'completed' : ''}`}>
                             <span className="booking-step-number">{step > 2 ? '✓' : '2'}</span>
-                            <span>Professionnel</span>
+                            <span>{t('booking.step2')}</span>
                         </div>
                         <div className="booking-step-line" />
                         <div className={`booking-step ${step >= 3 ? 'active' : ''} ${step > 3 ? 'completed' : ''}`}>
                             <span className="booking-step-number">{step > 3 ? '✓' : '3'}</span>
-                            <span>Date & Heure</span>
+                            <span>{t('booking.step3')}</span>
                         </div>
                         <div className="booking-step-line" />
                         <div className={`booking-step ${step >= 4 ? 'active' : ''}`}>
                             <span className="booking-step-number">4</span>
-                            <span>Confirmation</span>
+                            <span>{t('booking.step4')}</span>
                         </div>
                     </div>
 
@@ -254,17 +245,13 @@ export default function BookingPage() {
                             }}>
                                 <span>⚠️</span>
                                 <span>{error}</span>
-                                <button
-                                    onClick={() => setError('')}
-                                    style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#f87171', cursor: 'pointer', fontSize: '1.2rem' }}
-                                >✕</button>
                             </div>
                         )}
 
                         {/* Step 1: Service */}
                         {step === 1 && (
                             <>
-                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>Choisissez une prestation :</h3>
+                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>{t('booking.selectService')}</h3>
                                 <div className="booking-services-grid">
                                     {serviceOptions.map((s) => (
                                         <div
@@ -273,19 +260,19 @@ export default function BookingPage() {
                                             onClick={() => setSelectedService(s)}
                                         >
                                             <div className="booking-service-icon">{s.icon}</div>
-                                            <div className="booking-service-name">{s.name}</div>
+                                            <div className="booking-service-name">{t(`booking.services.${s.id}`)}</div>
                                             <div className="booking-service-price">{s.price} Dhs</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
                                         </div>
                                     ))}
                                 </div>
-                                <div style={{ textAlign: 'right', marginTop: '2rem' }}>
+                                <div style={{ textAlign: i18n.language === 'ar' ? 'left' : 'right', marginTop: '2rem' }}>
                                     <button
                                         className="btn btn-primary"
                                         disabled={!selectedService}
                                         onClick={() => setStep(2)}
                                     >
-                                        Continuer →
+                                        {t('booking.next')} {i18n.language === 'ar' ? '←' : '→'}
                                     </button>
                                 </div>
                             </>
@@ -294,7 +281,7 @@ export default function BookingPage() {
                         {/* Step 2: Professional */}
                         {step === 2 && (
                             <>
-                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>Choisissez un professionnel :</h3>
+                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>{t('booking.selectPro')}</h3>
                                 <div className="booking-services-grid">
                                     {professionals.map((p) => (
                                         <div
@@ -304,14 +291,14 @@ export default function BookingPage() {
                                         >
                                             <div className="booking-service-icon">👤</div>
                                             <div className="booking-service-name">{p.name}</div>
-                                            <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)' }}>{p.role}</div>
+                                            <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)' }}>{t(`booking.roles.${p.roleId}`)}</div>
                                         </div>
                                     ))}
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
-                                    <button className="btn btn-outline" onClick={() => setStep(1)}>← Retour</button>
+                                    <button className="btn btn-outline" onClick={() => setStep(1)}>{i18n.language === 'ar' ? '→' : '←'} {t('booking.previous')}</button>
                                     <button className="btn btn-primary" disabled={!selectedPro} onClick={() => setStep(3)}>
-                                        Continuer →
+                                        {t('booking.next')} {i18n.language === 'ar' ? '←' : '→'}
                                     </button>
                                 </div>
                             </>
@@ -321,7 +308,7 @@ export default function BookingPage() {
                         {step === 3 && (
                             <>
                                 <div className="booking-calendar">
-                                    <h3 style={{ marginBottom: '1rem', color: 'var(--color-gray-300)' }}>Choisissez une date :</h3>
+                                    <h3 style={{ marginBottom: '1rem', color: 'var(--color-gray-300)' }}>{t('booking.selectDate')}</h3>
                                     <input
                                         type="date"
                                         className="form-input"
@@ -333,7 +320,7 @@ export default function BookingPage() {
 
                                     {selectedDate && (
                                         <>
-                                            <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: 'var(--color-gray-300)' }}>Choisissez un créneau :</h3>
+                                            <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: 'var(--color-gray-300)' }}>{t('booking.selectTime')}</h3>
                                             <div className="booking-time-slots">
                                                 {timeSlots.map((time) => (
                                                     <div
@@ -349,13 +336,13 @@ export default function BookingPage() {
                                     )}
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
-                                    <button className="btn btn-outline" onClick={() => setStep(2)}>← Retour</button>
+                                    <button className="btn btn-outline" onClick={() => setStep(2)}>{i18n.language === 'ar' ? '→' : '←'} {t('booking.previous')}</button>
                                     <button
                                         className="btn btn-primary"
                                         disabled={!selectedDate || !selectedTime}
                                         onClick={() => setStep(4)}
                                     >
-                                        Continuer →
+                                        {t('booking.next')} {i18n.language === 'ar' ? '←' : '→'}
                                     </button>
                                 </div>
                             </>
@@ -364,35 +351,31 @@ export default function BookingPage() {
                         {/* Step 4: Summary & Confirmation */}
                         {step === 4 && (
                             <>
-                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>Récapitulatif de votre réservation :</h3>
+                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>{t('booking.summary')}</h3>
                                 <div className="booking-summary">
                                     <div className="booking-summary-row">
-                                        <span style={{ color: 'var(--color-gray-500)' }}>Service</span>
-                                        <span>{selectedService?.icon} {selectedService?.name}</span>
+                                        <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.service')}</span>
+                                        <span>{selectedService?.icon} {t(`booking.services.${selectedService?.id}`)}</span>
                                     </div>
                                     <div className="booking-summary-row">
-                                        <span style={{ color: 'var(--color-gray-500)' }}>Professionnel</span>
+                                        <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.professional')}</span>
                                         <span>{selectedPro?.name}</span>
                                     </div>
                                     <div className="booking-summary-row">
-                                        <span style={{ color: 'var(--color-gray-500)' }}>Date</span>
+                                        <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.date')}</span>
                                         <span>{formatDate(selectedDate)}</span>
                                     </div>
                                     <div className="booking-summary-row">
-                                        <span style={{ color: 'var(--color-gray-500)' }}>Heure</span>
+                                        <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.time')}</span>
                                         <span>{selectedTime}</span>
                                     </div>
-                                    <div className="booking-summary-row">
-                                        <span style={{ color: 'var(--color-gray-500)' }}>Durée</span>
-                                        <span>{selectedService?.duration}</span>
-                                    </div>
                                     <div className="booking-summary-row" style={{ borderTop: '1px solid rgba(212, 175, 55, 0.2)', paddingTop: '1rem', marginTop: '0.5rem' }}>
-                                        <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>Total</span>
+                                        <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{t('booking.total')}</span>
                                         <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{selectedService?.price} Dhs</span>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem', alignItems: 'center' }}>
-                                    <button className="btn btn-outline" onClick={() => setStep(3)}>← Retour</button>
+                                    <button className="btn btn-outline" onClick={() => setStep(3)}>{i18n.language === 'ar' ? '→' : '←'} {t('booking.previous')}</button>
                                     <button
                                         className="btn btn-primary btn-lg"
                                         onClick={handleBooking}
@@ -417,10 +400,10 @@ export default function BookingPage() {
                                                     animation: 'spin 0.6s linear infinite',
                                                     display: 'inline-block',
                                                 }}></span>
-                                                Confirmation en cours...
+                                                {t('booking.loadingStub')}
                                             </>
                                         ) : (
-                                            '✓ Confirmer la réservation'
+                                            `✓ ${t('booking.confirm')}`
                                         )}
                                     </button>
                                 </div>

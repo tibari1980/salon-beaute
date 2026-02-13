@@ -233,34 +233,74 @@
         "next": "Suivant",
         "previous": "Retour",
         "success": "RDV Confirmé !",
-        "thankYou": "À très vite chez JL Beauty"
-    },
-    "profile": {
-        "title": "Mon Espace",
-        "welcome": "Marhba,",
-        "info": "Mes infos",
-        "appointments": "Mes RDV",
-        "loyalty": "Points Fidélité",
-        "points": "pts",
-        "logout": "Déconnexion",
-        "noAppointments": "Aucun RDV à venir",
-        "upcoming": "À venir",
-        "past": "Historique"
+        "thankYou": "À très vite chez JL Beauty",
+        "loadingStub": "Confirmation en cours...",
+        "ref": "Réf:",
+        "reminder": "Un rappel vous sera envoyé avant votre rendez-vous.",
+        "dashboardLink": "Mes rendez-vous",
+        "homeLink": "Retour à l'accueil",
+        "services": {
+            "coupe": "Coupe & Brushing",
+            "coloration": "Coloration & Balayage",
+            "soin": "Soin Éclat Premium",
+            "manucure": "Manucure Prestige",
+            "maquillage": "Maquillage Événement",
+            "pedicure": "Pédicure Spa"
+        },
+        "roles": {
+            "coiffeuse": "Coiffeuse",
+            "barbier": "Barbier",
+            "estheticienne": "Esthéticienne",
+            "manucuriste": "Manucuriste"
+        }
     },
     "dashboard": {
         "title": "Administration",
-        "overview": "Accueil",
-        "appointments": "Agenda",
-        "services": "Catalogue",
-        "team": "Staff",
-        "statsTotal": "Total RDV",
+        "overview": "Tableau de bord",
+        "appointments": "Rendez-vous",
+        "services": "Services",
+        "team": "Équipe",
+        "statsTotal": "Total rendez-vous",
         "statsToday": "Aujourd'hui",
-        "statsRevenue": "CA Estimé (MAD)",
-        "recent": "Dernières réservations",
+        "statsRevenue": "Revenus totaux",
+        "statsRating": "Note moyenne",
+        "active": "Actif",
+        "growth": "En croissance",
+        "recent": "Rendez-vous récents",
+        "allAppointments": "Tous les rendez-vous",
+        "serviceManagement": "Gestion des services",
+        "teamManagement": "Équipe",
         "view": "Voir",
         "delete": "Supprimer",
-        "confirmed": "Validé",
-        "pending": "En attente",
-        "cancelled": "Annulé"
+        "viewSite": "Voir le site",
+        "logout": "Déconnexion",
+        "welcome": "Bonjour,",
+        "empty": "Aucun rendez-vous.",
+        "status": {
+            "confirmed": "Confirmé",
+            "pending": "En attente",
+            "completed": "Terminé",
+            "cancelled": "Annulé",
+            "available": "Disponible",
+            "busy": "Occupé",
+            "break": "En pause"
+        }
+    },
+    "profile": {
+        "title": "Mon Profil",
+        "logout": "Déconnexion",
+        "appointments": "Mes rendez-vous",
+        "noAppointments": "Aucun rendez-vous pour le moment.",
+        "loyaltyProgram": "Programme de fidélité",
+        "loyaltyPoints": "Points de fidélité",
+        "nextReward": "✨ Prochain avantage à 100 points : -15% sur votre prochaine prestation",
+        "loading": "Chargement...",
+        "errorLoad": "Impossible de charger vos rendez-vous.",
+        "status": {
+            "confirmed": "Confirmé",
+            "pending": "En attente",
+            "completed": "Terminé",
+            "cancelled": "Annulé"
+        }
     }
 }

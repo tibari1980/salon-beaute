@@ -3,8 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, getDocs, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
+import { useTranslation } from 'react-i18next';
 
 export default function DashboardPage() {
+    const { t, i18n } = useTranslation();
     const [user, setUser] = useState(null);
     const [appointments, setAppointments] = useState([]);
     const [activeNav, setActiveNav] = useState('dashboard');
@@ -35,7 +37,7 @@ export default function DashboardPage() {
     };
 
     const deleteAppointment = async (id) => {
-        if (window.confirm('Supprimer ce rendez-vous ?')) {
+        if (window.confirm(t('dashboard.delete') + ' ?')) {
             await deleteDoc(doc(db, 'appointments', id));
             setAppointments(appointments.filter((a) => a.id !== id));
         }
@@ -52,18 +54,46 @@ export default function DashboardPage() {
 
     const totalRevenue = appointments.reduce((sum, a) => sum + (a.servicePrice || 0), 0);
 
+    const formatCurrency = (amount) => {
+        return `${amount} ${i18n.language === 'ar' ? 'درهم' : 'Dhs'}`;
+    };
+
+    const servicesList = [
+        { id: 'coupe', price: 200, duration: '45 min', category: 'Coiffure' },
+        { id: 'coloration', price: 450, duration: '90 min', category: 'Coloration' },
+        { id: 'soin', price: 350, duration: '60 min', category: 'Soins' },
+        { id: 'manucure', price: 150, duration: '50 min', category: 'Manucure' },
+        { id: 'maquillage', price: 350, duration: '45 min', category: 'Maquillage' },
+        { id: 'pedicure', price: 200, duration: '55 min', category: 'Pédicure' },
+    ];
+
+    const teamList = [
+        { name: 'Sophie Laurent', roleId: 'coiffeuse', status: 'available' },
+        { name: 'Marc Dubois', roleId: 'barbier', status: 'busy' },
+        { name: 'Amira Benali', roleId: 'estheticienne', status: 'available' },
+        { name: 'Clara Martin', roleId: 'manucuriste', status: 'break' },
+    ];
+
     if (loading) {
         return (
             <div className="dashboard">
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p style={{ color: 'var(--color-gray-500)' }}>Chargement...</p>
+                    <p style={{ color: 'var(--color-gray-500)' }}>{t('profile.loading')}</p>
                 </div>
             </div>
         );
     }
 
+    // Helper for translation lookups
+    const getServiceTitle = (id, fallbackName) => {
+        // Try to find translation for ID, otherwise use fallback
+        return id ? t(`booking.services.${id}`) : fallbackName;
+    };
+
+    const getStatusLabel = (status) => t(`dashboard.status.${status}`) || status;
+
     return (
-        <div className="dashboard">
+        <div className={`dashboard ${i18n.language === 'ar' ? 'rtl' : ''}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
             <aside className="dashboard-sidebar">
                 <div className="dashboard-sidebar-logo">Beauty<span>Connect</span></div>
 
@@ -71,43 +101,43 @@ export default function DashboardPage() {
                     className={`dashboard-nav-item ${activeNav === 'dashboard' ? 'active' : ''}`}
                     onClick={() => setActiveNav('dashboard')}
                 >
-                    📊 Tableau de bord
+                    📊 {t('dashboard.overview')}
                 </div>
                 <div
                     className={`dashboard-nav-item ${activeNav === 'appointments' ? 'active' : ''}`}
                     onClick={() => setActiveNav('appointments')}
                 >
-                    📅 Rendez-vous
+                    📅 {t('dashboard.appointments')}
                 </div>
                 <div
                     className={`dashboard-nav-item ${activeNav === 'services' ? 'active' : ''}`}
                     onClick={() => setActiveNav('services')}
                 >
-                    💇 Services
+                    💇 {t('dashboard.services')}
                 </div>
                 <div
                     className={`dashboard-nav-item ${activeNav === 'team' ? 'active' : ''}`}
                     onClick={() => setActiveNav('team')}
                 >
-                    👥 Équipe
+                    👥 {t('dashboard.team')}
                 </div>
 
                 <div style={{ marginTop: 'auto', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                    <Link to="/" className="dashboard-nav-item">🏠 Voir le site</Link>
-                    <div className="dashboard-nav-item" onClick={handleLogout}>🚪 Déconnexion</div>
+                    <Link to="/" className="dashboard-nav-item">🏠 {t('dashboard.viewSite')}</Link>
+                    <div className="dashboard-nav-item" onClick={handleLogout} style={{ cursor: 'pointer' }}>🚪 {t('dashboard.logout')}</div>
                 </div>
             </aside>
 
             <main className="dashboard-main">
                 <div className="dashboard-header">
                     <h1 className="dashboard-title">
-                        {activeNav === 'dashboard' && 'Tableau de bord'}
-                        {activeNav === 'appointments' && 'Rendez-vous'}
-                        {activeNav === 'services' && 'Services'}
-                        {activeNav === 'team' && 'Équipe'}
+                        {activeNav === 'dashboard' && t('dashboard.overview')}
+                        {activeNav === 'appointments' && t('dashboard.appointments')}
+                        {activeNav === 'services' && t('dashboard.services')}
+                        {activeNav === 'team' && t('dashboard.team')}
                     </h1>
                     <div style={{ color: 'var(--color-gray-500)', fontSize: '0.9rem' }}>
-                        Bonjour, <span style={{ color: 'var(--color-gold)' }}>{user?.displayName || 'Admin'}</span>
+                        {t('dashboard.welcome')} <span style={{ color: 'var(--color-gold)' }}>{user?.displayName || 'Admin'}</span>
                     </div>
                 </div>
 
@@ -117,39 +147,39 @@ export default function DashboardPage() {
                             <div className="dashboard-stat-card">
                                 <div className="dashboard-stat-icon" style={{ background: 'rgba(212, 175, 55, 0.1)', color: 'var(--color-gold)' }}>📅</div>
                                 <div className="dashboard-stat-value">{appointments.length}</div>
-                                <div className="dashboard-stat-label">Total rendez-vous</div>
-                                <div className="dashboard-stat-change positive">↑ Actif</div>
+                                <div className="dashboard-stat-label">{t('dashboard.statsTotal')}</div>
+                                <div className="dashboard-stat-change positive">↑ {t('dashboard.active')}</div>
                             </div>
                             <div className="dashboard-stat-card">
                                 <div className="dashboard-stat-icon" style={{ background: 'rgba(74, 222, 128, 0.1)', color: '#4ade80' }}>📆</div>
                                 <div className="dashboard-stat-value">{todayAppointments.length}</div>
-                                <div className="dashboard-stat-label">Aujourd'hui</div>
+                                <div className="dashboard-stat-label">{t('dashboard.statsToday')}</div>
                             </div>
                             <div className="dashboard-stat-card">
                                 <div className="dashboard-stat-icon" style={{ background: 'rgba(96, 165, 250, 0.1)', color: '#60a5fa' }}>💰</div>
-                                <div className="dashboard-stat-value">{totalRevenue} Dhs</div>
-                                <div className="dashboard-stat-label">Revenus totaux</div>
-                                <div className="dashboard-stat-change positive">↑ En croissance</div>
+                                <div className="dashboard-stat-value">{formatCurrency(totalRevenue)}</div>
+                                <div className="dashboard-stat-label">{t('dashboard.statsRevenue')}</div>
+                                <div className="dashboard-stat-change positive">↑ {t('dashboard.growth')}</div>
                             </div>
                             <div className="dashboard-stat-card">
                                 <div className="dashboard-stat-icon" style={{ background: 'rgba(251, 191, 36, 0.1)', color: '#fbbf24' }}>⭐</div>
                                 <div className="dashboard-stat-value">4.9</div>
-                                <div className="dashboard-stat-label">Note moyenne</div>
+                                <div className="dashboard-stat-label">{t('dashboard.statsRating')}</div>
                             </div>
                         </div>
 
                         <div className="profile-card" style={{ marginTop: '1rem' }}>
-                            <h3 className="profile-card-title">Rendez-vous récents</h3>
+                            <h3 className="profile-card-title">{t('dashboard.recent')}</h3>
                             {appointments.slice(0, 5).map((apt) => (
                                 <div key={apt.id} className="appointment-item">
                                     <div>
-                                        <div className="appointment-service">{apt.service}</div>
+                                        <div className="appointment-service">{getServiceTitle(apt.serviceId, apt.service)}</div>
                                         <div className="appointment-date">
-                                            {apt.date} à {apt.time} — {apt.userName || 'Client'} avec {apt.professional}
+                                            {apt.date} — {apt.time} — {apt.userName || 'Client'}
                                         </div>
                                     </div>
                                     <span className={`appointment-status ${apt.status}`}>
-                                        {apt.status === 'confirmed' ? 'Confirmé' : apt.status === 'pending' ? 'En attente' : 'Terminé'}
+                                        {getStatusLabel(apt.status)}
                                     </span>
                                 </div>
                             ))}
@@ -159,23 +189,23 @@ export default function DashboardPage() {
 
                 {activeNav === 'appointments' && (
                     <div className="profile-card">
-                        <h3 className="profile-card-title">Tous les rendez-vous ({appointments.length})</h3>
+                        <h3 className="profile-card-title">{t('dashboard.allAppointments')} ({appointments.length})</h3>
                         {appointments.length === 0 ? (
                             <p style={{ color: 'var(--color-gray-500)', textAlign: 'center', padding: '2rem 0' }}>
-                                Aucun rendez-vous.
+                                {t('dashboard.empty')}
                             </p>
                         ) : (
                             appointments.map((apt) => (
                                 <div key={apt.id} className="appointment-item">
                                     <div>
-                                        <div className="appointment-service">{apt.service}</div>
+                                        <div className="appointment-service">{getServiceTitle(apt.serviceId, apt.service)}</div>
                                         <div className="appointment-date">
-                                            {apt.date} à {apt.time} — {apt.userName || 'Client'} avec {apt.professional}
+                                            {apt.date} — {apt.time} — {apt.userName || 'Client'} — {apt.professional}
                                         </div>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                         <span className={`appointment-status ${apt.status}`}>
-                                            {apt.status === 'confirmed' ? 'Confirmé' : 'En attente'}
+                                            {getStatusLabel(apt.status)}
                                         </span>
                                         <button
                                             onClick={() => deleteAppointment(apt.id)}
@@ -189,7 +219,7 @@ export default function DashboardPage() {
                                                 cursor: 'pointer',
                                             }}
                                         >
-                                            Supprimer
+                                            {t('dashboard.delete')}
                                         </button>
                                     </div>
                                 </div>
@@ -200,21 +230,14 @@ export default function DashboardPage() {
 
                 {activeNav === 'services' && (
                     <div className="profile-card">
-                        <h3 className="profile-card-title">Gestion des services</h3>
-                        {[
-                            { name: 'Coupe & Brushing', price: '200 Dhs', duration: '45 min', category: 'Coiffure' },
-                            { name: 'Coloration & Balayage', price: '450 Dhs', duration: '90 min', category: 'Coloration' },
-                            { name: 'Soin Éclat Premium', price: '350 Dhs', duration: '60 min', category: 'Soins' },
-                            { name: 'Manucure Prestige', price: '150 Dhs', duration: '50 min', category: 'Manucure' },
-                            { name: 'Maquillage Événement', price: '350 Dhs', duration: '45 min', category: 'Maquillage' },
-                            { name: 'Pédicure Spa', price: '200 Dhs', duration: '55 min', category: 'Pédicure' },
-                        ].map((s, i) => (
+                        <h3 className="profile-card-title">{t('dashboard.serviceManagement')}</h3>
+                        {servicesList.map((s, i) => (
                             <div key={i} className="appointment-item">
                                 <div>
-                                    <div className="appointment-service">{s.name}</div>
+                                    <div className="appointment-service">{t(`booking.services.${s.id}`)}</div>
                                     <div className="appointment-date">{s.category} — {s.duration}</div>
                                 </div>
-                                <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{s.price}</span>
+                                <span style={{ color: 'var(--color-gold)', fontWeight: 700, fontSize: '1.1rem' }}>{formatCurrency(s.price)}</span>
                             </div>
                         ))}
                     </div>
@@ -222,27 +245,22 @@ export default function DashboardPage() {
 
                 {activeNav === 'team' && (
                     <div className="profile-card">
-                        <h3 className="profile-card-title">Équipe</h3>
-                        {[
-                            { name: 'Sophie Laurent', role: 'Coiffeuse Styliste', status: 'Disponible' },
-                            { name: 'Marc Dubois', role: 'Barbier Expert', status: 'En rendez-vous' },
-                            { name: 'Amira Benali', role: 'Esthéticienne', status: 'Disponible' },
-                            { name: 'Clara Martin', role: 'Manucuriste', status: 'En pause' },
-                        ].map((m, i) => (
+                        <h3 className="profile-card-title">{t('dashboard.teamManagement')}</h3>
+                        {teamList.map((m, i) => (
                             <div key={i} className="appointment-item">
                                 <div>
                                     <div className="appointment-service">{m.name}</div>
-                                    <div className="appointment-date">{m.role}</div>
+                                    <div className="appointment-date">{t(`booking.roles.${m.roleId}`)}</div>
                                 </div>
                                 <span style={{
                                     padding: '4px 12px',
                                     borderRadius: '20px',
                                     fontSize: '0.75rem',
                                     fontWeight: 600,
-                                    background: m.status === 'Disponible' ? 'rgba(74, 222, 128, 0.1)' : 'rgba(251, 191, 36, 0.1)',
-                                    color: m.status === 'Disponible' ? '#4ade80' : '#fbbf24',
+                                    background: m.status === 'available' ? 'rgba(74, 222, 128, 0.1)' : 'rgba(251, 191, 36, 0.1)',
+                                    color: m.status === 'available' ? '#4ade80' : '#fbbf24',
                                 }}>
-                                    {m.status}
+                                    {getStatusLabel(m.status)}
                                 </span>
                             </div>
                         ))}

@@ -233,34 +233,74 @@
         "next": "التالي",
         "previous": "السابق",
         "success": "تم تأكيد الموعد!",
-        "thankYou": "نراك قريباً في JL Beauty"
-    },
-    "profile": {
-        "title": "مساحتي",
-        "welcome": "مرحباً،",
-        "info": "معلوماتي",
-        "appointments": "مواعيدي",
-        "loyalty": "نقاط الوفاء",
-        "points": "نقطة",
-        "logout": "خروج",
-        "noAppointments": "لا توجد مواعيد قادمة",
-        "upcoming": "القادمة",
-        "past": "السابقة"
+        "thankYou": "نراك قريباً في JL Beauty",
+        "loadingStub": "جاري التأكيد...",
+        "ref": "مرجع:",
+        "reminder": "سيتم إرسال تذكير قبل موعدك.",
+        "dashboardLink": "مواعيدي",
+        "homeLink": "العودة للرئيسية",
+        "services": {
+            "coupe": "قص وبروشينغ",
+            "coloration": "صباغة وبالاياج",
+            "soin": "علاج إشراقة",
+            "manucure": "مانيكير فاخر",
+            "maquillage": "مكياج سهرة",
+            "pedicure": "باديكير سبا"
+        },
+        "roles": {
+            "coiffeuse": "مصففة شعر",
+            "barbier": "حلاق",
+            "estheticienne": "أخصائية تجميل",
+            "manucuriste": "أخصائية أظافر"
+        }
     },
     "dashboard": {
         "title": "الإدارة",
-        "overview": "الرئيسية",
+        "overview": "لوحة التحكم",
         "appointments": "المواعيد",
-        "services": "الكتالوج",
-        "team": "الموظفين",
-        "statsTotal": "مجموع المواعيد",
+        "services": "الخدمات",
+        "team": "الفريق",
+        "statsTotal": "إجمالي المواعيد",
         "statsToday": "اليوم",
-        "statsRevenue": "الإيرادات (درهم)",
-        "recent": "آخر الحجوزات",
+        "statsRevenue": "إجمالي الإيرادات",
+        "statsRating": "متوسط التقييم",
+        "active": "نشط",
+        "growth": "في نمو",
+        "recent": "أحدث المواعيد",
+        "allAppointments": "كل المواعيد",
+        "serviceManagement": "إدارة الخدمات",
+        "teamManagement": "إدارة الفريق",
         "view": "عرض",
         "delete": "حذف",
-        "confirmed": "مؤكد",
-        "pending": "انتظار",
-        "cancelled": "ملغى"
+        "viewSite": "زيارة الموقع",
+        "logout": "خروج",
+        "welcome": "مرحباً،",
+        "empty": "لا توجد مواعيد.",
+        "status": {
+            "confirmed": "مؤكد",
+            "pending": "قيد الانتظار",
+            "completed": "مكتمل",
+            "cancelled": "ملغى",
+            "available": "متاح",
+            "busy": "مشغول",
+            "break": "في استراحة"
+        }
+    },
+    "profile": {
+        "title": "ملفي الشخصي",
+        "logout": "تسجيل الخروج",
+        "appointments": "مواعيدي",
+        "noAppointments": "لا توجد مواعيد حالياً.",
+        "loyaltyProgram": "برنامج الوفاء",
+        "loyaltyPoints": "نقاط الوفاء",
+        "nextReward": "✨ المكافأة القادمة عند 100 نقطة: -15% على خدمتك القادمة",
+        "loading": "جاري التحميل...",
+        "errorLoad": "تعذر تحميل المواعيد.",
+        "status": {
+            "confirmed": "مؤكد",
+            "pending": "قيد الانتظار",
+            "completed": "مكتمل",
+            "cancelled": "ملغى"
+        }
     }
 }

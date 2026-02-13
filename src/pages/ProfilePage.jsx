@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../firebase';
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export default function ProfilePage() {
+    const { t, i18n } = useTranslation();
     const [user, setUser] = useState(null);
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -33,14 +35,14 @@ export default function ProfilePage() {
                 setAppointments(data);
             } catch (err) {
                 console.error('Error loading appointments:', err);
-                setError("Impossible de charger vos rendez-vous. Vérifiez votre connexion.");
+                setError(t('profile.errorLoad'));
             } finally {
                 setLoading(false);
             }
         });
 
         return () => unsubscribe();
-    }, [navigate]);
+    }, [navigate, t]);
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -53,7 +55,7 @@ export default function ProfilePage() {
                 <Navbar />
                 <div className="profile-page">
                     <div className="container" style={{ textAlign: 'center', paddingTop: '40px' }}>
-                        <p style={{ color: 'var(--color-gray-500)' }}>Chargement...</p>
+                        <p style={{ color: 'var(--color-gray-500)' }}>{t('profile.loading')}</p>
                     </div>
                 </div>
             </>
@@ -64,10 +66,15 @@ export default function ProfilePage() {
         ? user.displayName.split(' ').map((n) => n[0]).join('').toUpperCase()
         : '?';
 
+    // Helper to translate status
+    const getStatusLabel = (status) => {
+        return t(`profile.status.${status}`) || status;
+    };
+
     return (
         <>
             <Navbar />
-            <div className="profile-page">
+            <div className={`profile-page ${i18n.language === 'ar' ? 'rtl' : ''}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                 <div className="container">
                     <div className="profile-header">
                         <div className="profile-avatar">{initials}</div>
@@ -75,21 +82,21 @@ export default function ProfilePage() {
                             <h2>{user?.displayName || 'Client'}</h2>
                             <p>{user?.email}</p>
                         </div>
-                        <div style={{ marginLeft: 'auto' }}>
+                        <div style={{ marginLeft: i18n.language === 'ar' ? 0 : 'auto', marginRight: i18n.language === 'ar' ? 'auto' : 0 }}>
                             <button className="btn btn-outline btn-sm" onClick={handleLogout}>
-                                Déconnexion
+                                {t('profile.logout')}
                             </button>
                         </div>
                     </div>
 
                     <div className="profile-grid">
                         <div className="profile-card">
-                            <h3 className="profile-card-title">Mes rendez-vous</h3>
+                            <h3 className="profile-card-title">{t('profile.appointments')}</h3>
                             {error ? (
                                 <p style={{ color: '#f87171', textAlign: 'center', padding: '2rem 0' }}>{error}</p>
                             ) : appointments.length === 0 ? (
                                 <p style={{ color: 'var(--color-gray-500)', textAlign: 'center', padding: '2rem 0' }}>
-                                    Aucun rendez-vous pour le moment.
+                                    {t('profile.noAppointments')}
                                 </p>
                             ) : (
                                 appointments.map((apt) => (
@@ -97,11 +104,11 @@ export default function ProfilePage() {
                                         <div>
                                             <div className="appointment-service">{apt.service}</div>
                                             <div className="appointment-date">
-                                                {apt.date} à {apt.time} — {apt.professional}
+                                                {apt.date} — {apt.time} — {apt.professional}
                                             </div>
                                         </div>
                                         <span className={`appointment-status ${apt.status}`}>
-                                            {apt.status === 'confirmed' ? 'Confirmé' : apt.status === 'pending' ? 'En attente' : 'Terminé'}
+                                            {getStatusLabel(apt.status)}
                                         </span>
                                     </div>
                                 ))
@@ -109,7 +116,7 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="profile-card">
-                            <h3 className="profile-card-title">Programme de fidélité</h3>
+                            <h3 className="profile-card-title">{t('profile.loyaltyProgram')}</h3>
                             <div style={{ textAlign: 'center', padding: '2rem 0' }}>
                                 <div style={{
                                     fontSize: '3rem',
@@ -120,7 +127,7 @@ export default function ProfilePage() {
                                 }}>
                                     {appointments.length * 10}
                                 </div>
-                                <div style={{ color: 'var(--color-gray-400)', fontSize: '0.9rem' }}>Points de fidélité</div>
+                                <div style={{ color: 'var(--color-gray-400)', fontSize: '0.9rem' }}>{t('profile.loyaltyPoints')}</div>
                                 <div style={{
                                     marginTop: '1.5rem',
                                     padding: '1rem',
@@ -129,7 +136,7 @@ export default function ProfilePage() {
                                     color: 'var(--color-gold)',
                                     fontSize: '0.85rem',
                                 }}>
-                                    ✨ Prochain avantage à 100 points : -15% sur votre prochaine prestation
+                                    {t('profile.nextReward')}
                                 </div>
                             </div>
                         </div>
