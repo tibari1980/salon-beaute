@@ -10,6 +10,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,13 +24,16 @@ export default function ProfilePage() {
             try {
                 const q = query(
                     collection(db, 'appointments'),
-                    where('userId', '==', currentUser.uid),
-                    orderBy('createdAt', 'desc')
+                    where('userId', '==', currentUser.uid)
                 );
                 const snapshot = await getDocs(q);
-                setAppointments(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+                const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                // Client-side sort to avoid index requirements
+                data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setAppointments(data);
             } catch (err) {
                 console.error('Error loading appointments:', err);
+                setError("Impossible de charger vos rendez-vous. Vérifiez votre connexion.");
             } finally {
                 setLoading(false);
             }
@@ -81,7 +85,9 @@ export default function ProfilePage() {
                     <div className="profile-grid">
                         <div className="profile-card">
                             <h3 className="profile-card-title">Mes rendez-vous</h3>
-                            {appointments.length === 0 ? (
+                            {error ? (
+                                <p style={{ color: '#f87171', textAlign: 'center', padding: '2rem 0' }}>{error}</p>
+                            ) : appointments.length === 0 ? (
                                 <p style={{ color: 'var(--color-gray-500)', textAlign: 'center', padding: '2rem 0' }}>
                                     Aucun rendez-vous pour le moment.
                                 </p>
