@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
@@ -57,6 +57,27 @@ export default function BookingPage() {
         setError('');
 
         try {
+            // Check for double booking
+            const q = query(
+                collection(db, 'appointments'),
+                where('date', '==', selectedDate),
+                where('time', '==', selectedTime),
+                where('professionalId', '==', selectedPro.id)
+            );
+            const querySnapshot = await getDocs(q);
+
+            // Check if any appointment is active (not cancelled)
+            const isBooked = querySnapshot.docs.some(doc => {
+                const data = doc.data();
+                return data.status !== 'cancelled';
+            });
+
+            if (isBooked) {
+                setError(t('booking.errorDoubleBooking'));
+                setLoading(false);
+                return;
+            }
+
             const docRef = await addDoc(collection(db, 'appointments'), {
                 userId: auth.currentUser.uid,
                 userName: auth.currentUser.displayName || t('booking.client'),

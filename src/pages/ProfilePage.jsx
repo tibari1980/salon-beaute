@@ -80,6 +80,36 @@ export default function ProfilePage() {
         if (!editingApt) return;
 
         try {
+            // Check for double booking
+            // We assume professionalId exists. If not, we might skip check or rely on name?
+            // Safer to check if professionalId exists.
+            if (editingApt.professionalId) {
+                const q = query(
+                    collection(db, 'appointments'),
+                    where('date', '==', newDate),
+                    where('time', '==', newTime),
+                    where('professionalId', '==', editingApt.professionalId)
+                );
+                const querySnapshot = await getDocs(q);
+
+                const isBooked = querySnapshot.docs.some(doc => {
+                    const data = doc.data();
+                    // Exclude current appointment and cancelled ones
+                    return doc.id !== editingApt.id && data.status !== 'cancelled';
+                });
+
+                if (isBooked) {
+                    setError(t('booking.errorDoubleBooking')); // We need to make sure this key is accessible or add to profile?
+                    // "booking.errorDoubleBooking" is in booking namespace.
+                    // ProfilePage uses default namespace.
+                    // t('booking.errorDoubleBooking') will work if keys are loaded.
+                    // But wait, "booking" is a key in the resource.
+                    // Yes, t('booking.errorDoubleBooking') works.
+                    setTimeout(() => setError(null), 5000);
+                    return;
+                }
+            }
+
             const aptRef = doc(db, 'appointments', editingApt.id);
             await updateDoc(aptRef, {
                 date: newDate,
