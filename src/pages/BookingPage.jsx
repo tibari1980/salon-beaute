@@ -39,8 +39,12 @@ export default function BookingPage() {
     const navigate = useNavigate();
 
     const handleBooking = async () => {
+        console.log("handleBooking called");
+        console.log("Current user:", auth.currentUser);
+
         // Check authentication
         if (!auth.currentUser) {
+            console.log("No user, redirecting to login");
             navigate('/connexion');
             return;
         }
