@@ -301,6 +301,18 @@
             "pending": "En attente",
             "completed": "Terminé",
             "cancelled": "Annulé"
-        }
+        },
+        "actions": {
+            "edit": "Modifier",
+            "delete": "Annuler",
+            "cancel": "Fermer",
+            "save": "Enregistrer",
+            "confirmDelete": "Êtes-vous sûre de vouloir annuler ce rendez-vous ?",
+            "successDelete": "Rendez-vous annulé avec succès.",
+            "successUpdate": "Rendez-vous modifié avec succès."
+        },
+        "editTitle": "Modifier le rendez-vous",
+        "newDate": "Nouvelle date",
+        "newTime": "Nouvelle heure"
     }
 }

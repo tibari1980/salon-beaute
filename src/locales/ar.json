@@ -14,7 +14,19 @@
             "pending": "قيد الانتظار",
             "completed": "مكتمل",
             "cancelled": "ملغى"
-        }
+        },
+        "actions": {
+            "edit": "تعديل",
+            "delete": "إلغاء الموعد",
+            "cancel": "إغلاق",
+            "save": "حفظ",
+            "confirmDelete": "هل أنت متأكدة من إلغاء هذا الموعد؟",
+            "successDelete": "تم إلغاء الموعد بنجاح.",
+            "successUpdate": "تم تعديل الموعد بنجاح."
+        },
+        "editTitle": "تعديل الموعد",
+        "newDate": "تاريخ جديد",
+        "newTime": "وقت جديد"
     },
     "nav": {
         "home": "الرئيسية",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
@@ -13,6 +13,13 @@ export default function ProfilePage() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [successMsg, setSuccessMsg] = useState('');
+
+    // Edit State
+    const [editingApt, setEditingApt] = useState(null);
+    const [newDate, setNewDate] = useState('');
+    const [newTime, setNewTime] = useState('');
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,6 +54,50 @@ export default function ProfilePage() {
     const handleLogout = async () => {
         await signOut(auth);
         navigate('/');
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm(t('profile.actions.confirmDelete'))) return;
+
+        try {
+            await deleteDoc(doc(db, 'appointments', id));
+            setAppointments(appointments.filter(a => a.id !== id));
+            setSuccessMsg(t('profile.actions.successDelete'));
+            setTimeout(() => setSuccessMsg(''), 3000);
+        } catch (err) {
+            console.error("Error deleting appointment:", err);
+            setError("Error deleting appointment");
+        }
+    };
+
+    const openEditModal = (apt) => {
+        setEditingApt(apt);
+        setNewDate(apt.date);
+        setNewTime(apt.time);
+    };
+
+    const handleSaveEdit = async () => {
+        if (!editingApt) return;
+
+        try {
+            const aptRef = doc(db, 'appointments', editingApt.id);
+            await updateDoc(aptRef, {
+                date: newDate,
+                time: newTime
+            });
+
+            // Update local state
+            setAppointments(appointments.map(a =>
+                a.id === editingApt.id ? { ...a, date: newDate, time: newTime } : a
+            ));
+
+            setEditingApt(null);
+            setSuccessMsg(t('profile.actions.successUpdate'));
+            setTimeout(() => setSuccessMsg(''), 3000);
+        } catch (err) {
+            console.error("Error updating appointment:", err);
+            setError("Error updating appointment");
+        }
     };
 
     if (loading) {
@@ -89,6 +140,19 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
+                    {successMsg && (
+                        <div style={{
+                            background: 'rgba(74, 222, 128, 0.1)',
+                            color: '#4ade80',
+                            padding: '1rem',
+                            borderRadius: '8px',
+                            marginBottom: '1rem',
+                            textAlign: 'center'
+                        }}>
+                            {successMsg}
+                        </div>
+                    )}
+
                     <div className="profile-grid">
                         <div className="profile-card">
                             <h3 className="profile-card-title">{t('profile.appointments')}</h3>
@@ -101,15 +165,33 @@ export default function ProfilePage() {
                             ) : (
                                 appointments.map((apt) => (
                                     <div key={apt.id} className="appointment-item">
-                                        <div>
+                                        <div style={{ flex: 1 }}>
                                             <div className="appointment-service">{apt.service}</div>
                                             <div className="appointment-date">
                                                 {apt.date} — {apt.time} — {apt.professional}
                                             </div>
                                         </div>
-                                        <span className={`appointment-status ${apt.status}`}>
-                                            {getStatusLabel(apt.status)}
-                                        </span>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
+                                            <span className={`appointment-status ${apt.status}`}>
+                                                {getStatusLabel(apt.status)}
+                                            </span>
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <button
+                                                    onClick={() => openEditModal(apt)}
+                                                    className="btn btn-sm"
+                                                    style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem', background: '#333' }}
+                                                >
+                                                    ✎ {t('profile.actions.edit')}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(apt.id)}
+                                                    className="btn btn-sm"
+                                                    style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem', background: 'rgba(248, 113, 113, 0.2)', color: '#f87171' }}
+                                                >
+                                                    ✕ {t('profile.actions.delete')}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))
                             )}
@@ -142,6 +224,76 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Edit Modal */}
+                {editingApt && (
+                    <div style={{
+                        position: 'fixed',
+                        top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(0,0,0,0.8)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000
+                    }}>
+                        <div style={{
+                            background: 'var(--color-surface)',
+                            padding: '2rem',
+                            borderRadius: 'var(--radius-lg)',
+                            width: '90%',
+                            maxWidth: '400px',
+                            border: '1px solid var(--color-gold-dim)'
+                        }}>
+                            <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gold)' }}>
+                                {t('profile.editTitle')}
+                            </h3>
+
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-gray-300)' }}>
+                                    {t('profile.newDate')}
+                                </label>
+                                <input
+                                    type="date"
+                                    value={newDate}
+                                    onChange={(e) => setNewDate(e.target.value)}
+                                    className="form-input"
+                                    style={{ width: '100%' }}
+                                />
+                            </div>
+
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-gray-300)' }}>
+                                    {t('profile.newTime')}
+                                </label>
+                                <select
+                                    value={newTime}
+                                    onChange={(e) => setNewTime(e.target.value)}
+                                    className="form-input"
+                                    style={{ width: '100%' }}
+                                >
+                                    {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'].map(time => (
+                                        <option key={time} value={time}>{time}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+                                <button
+                                    onClick={() => setEditingApt(null)}
+                                    className="btn btn-ghost"
+                                >
+                                    {t('profile.actions.cancel')}
+                                </button>
+                                <button
+                                    onClick={handleSaveEdit}
+                                    className="btn btn-primary"
+                                >
+                                    {t('profile.actions.save')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
             <Footer />
         </>
