@@ -210,7 +210,8 @@
         "noAccount": "Pas encore cliente ?",
         "hasAccount": "Déjà cliente ?",
         "signupLink": "S'inscrire",
-        "loginLink": "Se connecter"
+        "loginLink": "Se connecter",
+        "joinSubtitle": "Rejoignez l'élégance"
     },
     "booking": {
         "title": "Réservation en ligne",

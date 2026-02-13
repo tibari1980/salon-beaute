@@ -210,7 +210,8 @@
         "noAccount": "ليس لديك حساب؟",
         "hasAccount": "لديك حساب بالفعل؟",
         "signupLink": "إنشاء حساب",
-        "loginLink": "الدخول"
+        "loginLink": "الدخول",
+        "joinSubtitle": "انضمي إلى عالم الأناقة"
     },
     "booking": {
         "title": "الحجز عبر الإنترنت",
