@@ -6,13 +6,30 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const serviceOptions = [
-    { id: 'coupe', name: 'Coupe & Brushing', price: 35, duration: '45 min', icon: '✂️' },
-    { id: 'coloration', name: 'Coloration & Balayage', price: 65, duration: '90 min', icon: '🎨' },
-    { id: 'soin', name: 'Soin Éclat Premium', price: 55, duration: '60 min', icon: '✨' },
-    { id: 'manucure', name: 'Manucure Prestige', price: 40, duration: '50 min', icon: '💅' },
-    { id: 'maquillage', name: 'Maquillage Événement', price: 50, duration: '45 min', icon: '💄' },
-    { id: 'pedicure', name: 'Pédicure Spa', price: 45, duration: '55 min', icon: '🦶' },
+    { id: 'coupe', name: 'Coupe & Brushing', price: 250, duration: '45 min', icon: '✂️' },
+    { id: 'coloration', name: 'Coloration & Balayage', price: 650, duration: '90 min', icon: '🎨' },
+    { id: 'soin', name: 'Soin Éclat Premium', price: 550, duration: '60 min', icon: '✨' },
+    { id: 'manucure', name: 'Manucure Prestige', price: 250, duration: '50 min', icon: '💅' },
+    { id: 'maquillage', name: 'Maquillage Événement', price: 500, duration: '45 min', icon: '💄' },
+    { id: 'pedicure', name: 'Pédicure Spa', price: 300, duration: '55 min', icon: '🦶' },
 ];
+
+/* ... (unchanged code) ... */
+
+                                            <div className="booking-service-name">{s.name}</div>
+                                            <div className="booking-service-price">{s.price} MAD</div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
+                                        </div >
+                                    ))}
+                                </div >
+
+    /* ... (unchanged code) ... */
+
+    <div className="booking-summary-row">
+        <span>Total</span>
+        <span>{selectedService?.price} MAD</span>
+    </div>
+                                </div >
 
 const professionals = [
     { id: 'sophie', name: 'Sophie Laurent', role: 'Coiffeuse' },
@@ -136,7 +153,7 @@ export default function BookingPage() {
                                         >
                                             <div className="booking-service-icon">{s.icon}</div>
                                             <div className="booking-service-name">{s.name}</div>
-                                            <div className="booking-service-price">{s.price}€</div>
+                                            <div className="booking-service-price">{s.price} MAD</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
                                         </div>
                                     ))}
@@ -250,7 +267,7 @@ export default function BookingPage() {
                                     </div>
                                     <div className="booking-summary-row">
                                         <span>Total</span>
-                                        <span>{selectedService?.price}€</span>
+                                        <span>{selectedService?.price} MAD</span>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
