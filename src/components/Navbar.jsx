@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
     const { t, i18n } = useTranslation();
+    const { currentUser, logout } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === '/';
 
@@ -24,6 +27,15 @@ export default function Navbar() {
         if (!isHome) return;
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setProfileMenuOpen(false);
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     };
 
     return (
@@ -63,6 +75,35 @@ export default function Navbar() {
                             >AR</button>
                         </div>
 
+                        {currentUser ? (
+                            <div className="navbar-user">
+                                <button
+                                    className="navbar-user-btn"
+                                    onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                                >
+                                    <span className="navbar-user-avatar">
+                                        {currentUser.photoURL ? (
+                                            <img src={currentUser.photoURL} alt="User" />
+                                        ) : (
+                                            currentUser.displayName?.charAt(0) || 'U'
+                                        )}
+                                    </span>
+                                </button>
+                                {profileMenuOpen && (
+                                    <div className="navbar-user-dropdown">
+                                        <Link to="/profil" onClick={() => setProfileMenuOpen(false)}>
+                                            {t('profile.title')}
+                                        </Link>
+                                        <button onClick={handleLogout}>{t('profile.logout')}</button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link to="/connexion" className="btn btn-outline navbar-login-btn">
+                                {t('nav.login')}
+                            </Link>
+                        )}
+
                         <Link to="/reservation" className="btn btn-teal navbar-cta">
                             {t('nav.book')}
                         </Link>
@@ -91,6 +132,13 @@ export default function Navbar() {
                             onClick={() => changeLanguage('ar')}
                         >AR</button>
                     </div>
+
+                    {currentUser && (
+                        <div className="mobile-menu-user">
+                            <span>{t('profile.welcome')} {currentUser.displayName}</span>
+                        </div>
+                    )}
+
                     {isHome ? (
                         <>
                             <a href="#accueil" onClick={() => scrollToSection('accueil')}>{t('nav.home')}</a>
@@ -107,11 +155,24 @@ export default function Navbar() {
                             <Link to="/#contact" onClick={() => setMobileOpen(false)}>{t('nav.contact')}</Link>
                         </>
                     )}
+
+                    {currentUser ? (
+                        <>
+                            <Link to="/profil" className="btn btn-outline" onClick={() => setMobileOpen(false)}>
+                                {t('profile.title')}
+                            </Link>
+                            <button className="btn btn-ghost" onClick={() => { handleLogout(); setMobileOpen(false); }}>
+                                {t('profile.logout')}
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/connexion" className="btn btn-outline" onClick={() => setMobileOpen(false)}>
+                            {t('nav.login')}
+                        </Link>
+                    )}
+
                     <Link to="/reservation" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
                         {t('nav.bookNow')}
-                    </Link>
-                    <Link to="/connexion" className="btn btn-outline" onClick={() => setMobileOpen(false)}>
-                        {t('nav.login')}
                     </Link>
                 </div>
             </div>

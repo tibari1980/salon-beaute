@@ -12,12 +12,12 @@ i18n
             fr: { translation: fr },
             ar: { translation: ar }
         },
-        fallbackLng: 'fr',
+        fallbackLng: 'ar',
         interpolation: {
             escapeValue: false
         },
         detection: {
-            order: ['localStorage', 'navigator'],
+            order: ['localStorage'],
             caches: ['localStorage']
         }
     });

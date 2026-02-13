@@ -8,6 +8,8 @@ import BookingPage from './pages/BookingPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+
 export default function App() {
     const { i18n } = useTranslation();
 
@@ -23,6 +25,7 @@ export default function App() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/connexion" element={<LoginPage />} />
                 <Route path="/inscription" element={<RegisterPage />} />
+                <Route path="/mot-de-passe-oublie" element={<ForgotPasswordPage />} />
                 <Route path="/reservation" element={<BookingPage />} />
                 <Route path="/profil" element={<ProfilePage />} />
                 <Route path="/admin" element={<DashboardPage />} />
