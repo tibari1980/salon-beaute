@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import BookingPage from './pages/BookingPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -32,6 +33,7 @@ export default function App() {
                 <Route path="/reservation" element={<BookingPage />} />
                 <Route path="/profil" element={<ProfilePage />} />
                 <Route path="/admin" element={<DashboardPage />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
     );
