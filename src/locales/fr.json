@@ -1,0 +1,264 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "services": "Services",
+        "team": "Équipe",
+        "reviews": "Avis",
+        "contact": "Contact",
+        "book": "Réserver",
+        "bookNow": "Réserver maintenant",
+        "login": "Connexion"
+    },
+    "hero": {
+        "slides": [
+            {
+                "badge": "Bienvenue chez JL Beauty",
+                "title": "Sublimez votre",
+                "highlight": "Beauté",
+                "end": "Naturelle",
+                "desc": "Découvrez un espace dédié à votre bien-être. Nos experts vous accompagnent pour révéler votre éclat naturel avec des soins personnalisés."
+            },
+            {
+                "badge": "Excellence & Savoir-faire",
+                "title": "L'Art de la",
+                "highlight": "Coiffure",
+                "end": "d'Exception",
+                "desc": "Des coupes tendance aux colorations sur mesure, nos coiffeurs experts créent le style qui vous ressemble."
+            },
+            {
+                "badge": "Détente & Sérénité",
+                "title": "Votre Moment de",
+                "highlight": "Bien-être",
+                "end": "",
+                "desc": "Offrez-vous une parenthèse de détente avec nos soins du visage, manucures et pédicures réalisés par des professionnels passionnés."
+            },
+            {
+                "badge": "Réservez en ligne",
+                "title": "Réservez en",
+                "highlight": "un Clic",
+                "end": "",
+                "desc": "Plus besoin d'appeler ! Choisissez votre prestation, votre professionnel et votre créneau en quelques secondes."
+            }
+        ],
+        "cta": "Réserver maintenant →",
+        "discover": "Nos Services"
+    },
+    "about": {
+        "badge": "À propos",
+        "title": "Votre Salon de",
+        "titleHighlight": "Beauté",
+        "titleEnd": "d'Exception",
+        "text1": "Fondé avec la passion de sublimer chaque individu, JL Beauty est bien plus qu'un salon de beauté. C'est un espace où l'élégance rencontre l'expertise, où chaque visite est une expérience unique de bien-être et de transformation.",
+        "text2": "Notre équipe de professionnels qualifiés utilise des produits haut de gamme et les dernières techniques pour vous offrir des résultats exceptionnels, dans une ambiance chaleureuse et raffinée.",
+        "stat1Label": "Années d'expérience",
+        "stat2Label": "Clients satisfaits",
+        "stat3Label": "Experts beauté",
+        "feature1": "Produits premium",
+        "feature2": "Experts certifiés",
+        "feature3": "Ambiance luxueuse",
+        "feature4": "Produits naturels",
+        "cta": "Découvrir nos services →"
+    },
+    "services": {
+        "badge": "Ce que nous offrons",
+        "title": "Nos",
+        "titleHighlight": "Services",
+        "titleEnd": "d'Exception",
+        "subtitle": "Découvrez notre gamme complète de prestations beauté, réalisées par des professionnels passionnés avec des produits haut de gamme.",
+        "bookLink": "Réserver →",
+        "items": [
+            {
+                "category": "Coiffure",
+                "title": "Coupe & Brushing",
+                "description": "Une coupe tendance adaptée à votre visage, suivie d'un brushing professionnel pour un résultat impeccable.",
+                "price": "35€",
+                "duration": "45 min"
+            },
+            {
+                "category": "Coloration",
+                "title": "Coloration & Balayage",
+                "description": "Des couleurs vibrantes et naturelles réalisées avec des produits de qualité professionnelle.",
+                "price": "65€",
+                "duration": "90 min"
+            },
+            {
+                "category": "Soins Visage",
+                "title": "Soin Éclat Premium",
+                "description": "Un soin complet pour raviver l'éclat de votre peau : nettoyage, gommage, masque et hydratation.",
+                "price": "55€",
+                "duration": "60 min"
+            },
+            {
+                "category": "Manucure",
+                "title": "Manucure Prestige",
+                "description": "Soin des mains complet avec pose de vernis semi-permanent, pour des ongles sublimes.",
+                "price": "40€",
+                "duration": "50 min"
+            },
+            {
+                "category": "Maquillage",
+                "title": "Maquillage Événement",
+                "description": "Un maquillage professionnel adapté à votre événement : mariage, soirée, shooting photo.",
+                "price": "50€",
+                "duration": "45 min"
+            },
+            {
+                "category": "Pédicure",
+                "title": "Pédicure Spa",
+                "description": "Un moment de détente pour vos pieds avec bain, soin, gommage et pose de vernis.",
+                "price": "45€",
+                "duration": "55 min"
+            }
+        ]
+    },
+    "team": {
+        "badge": "Notre équipe",
+        "title": "Des",
+        "titleHighlight": "Experts",
+        "titleEnd": "à Votre Service",
+        "subtitle": "Une équipe de professionnels passionnés, dédiés à sublimer votre beauté avec talent et bienveillance.",
+        "members": [
+            {
+                "name": "Sophie Laurent",
+                "role": "Coiffeuse Styliste",
+                "bio": "12 ans d'expérience en coiffure. Spécialiste des coupes modernes et colorations créatives."
+            },
+            {
+                "name": "Marc Dubois",
+                "role": "Barbier Expert",
+                "bio": "Passionné par l'art du rasage et les coupes masculines. Formé dans les meilleures académies parisiennes."
+            },
+            {
+                "name": "Amira Benali",
+                "role": "Esthéticienne",
+                "bio": "Experte en soins du visage et maquillage professionnel. Certifiée en dermocosmétique."
+            },
+            {
+                "name": "Clara Martin",
+                "role": "Manucuriste",
+                "bio": "Artiste des ongles, spécialiste nail art et soins des mains. Toujours à la pointe des tendances."
+            }
+        ]
+    },
+    "testimonials": {
+        "badge": "Témoignages",
+        "title": "Ce Que Disent Nos",
+        "titleHighlight": "Clients",
+        "subtitle": "La satisfaction de nos clients est notre plus belle récompense. Découvrez leurs avis.",
+        "items": [
+            {
+                "name": "Marie Dupont",
+                "service": "Coupe & Brushing",
+                "text": "Une expérience incroyable ! Sophie a parfaitement compris ce que je voulais. Le résultat est magnifique, je me sens transformée. Je recommande à 100% !"
+            },
+            {
+                "name": "Jean-Pierre Moreau",
+                "service": "Barbe & Coupe",
+                "text": "Marc est un vrai artiste. Ma barbe n'a jamais été aussi bien taillée. L'ambiance du salon est top, on se sent tout de suite à l'aise."
+            },
+            {
+                "name": "Fatima El Mansouri",
+                "service": "Soin Visage Premium",
+                "text": "Le soin éclat premium est un pur bonheur. Ma peau est rayonnante et douce comme jamais. Amira est très professionnelle et attentive."
+            }
+        ]
+    },
+    "cta": {
+        "title": "Prêt(e) à",
+        "titleHighlight": "Sublimer",
+        "titleEnd": "Votre Beauté ?",
+        "text": "Réservez votre prochain rendez-vous en quelques clics et offrez-vous une expérience beauté inoubliable avec nos experts.",
+        "book": "Réserver maintenant →",
+        "call": "📞 Nous appeler"
+    },
+    "footer": {
+        "brandDesc": "Votre destination beauté par excellence. Nous sublimeons votre beauté naturelle avec passion et expertise depuis plus de 12 ans.",
+        "navigation": "Navigation",
+        "servicesTitle": "Services",
+        "contactTitle": "Contact",
+        "address": "12 Rue de la Beauté",
+        "city": "75008 Paris, France",
+        "phone": "+33 1 23 45 67 89",
+        "email": "contact@jlbeauty.fr",
+        "hours": "Lun - Sam : 9h - 19h",
+        "closed": "Dimanche : Fermé",
+        "home": "Accueil",
+        "services": "Services",
+        "team": "Notre Équipe",
+        "booking": "Réservation",
+        "reviews": "Avis Clients",
+        "hairdressing": "Coiffure",
+        "coloring": "Coloration",
+        "facialCare": "Soins Visage",
+        "manicure": "Manucure",
+        "makeup": "Maquillage",
+        "rights": "Tous droits réservés."
+    },
+    "auth": {
+        "login": "Connexion",
+        "register": "Inscription",
+        "email": "Adresse email",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "fullName": "Nom complet",
+        "phone": "Téléphone",
+        "loginBtn": "Se connecter",
+        "registerBtn": "S'inscrire",
+        "orWith": "Ou continuer avec",
+        "google": "Google",
+        "noAccount": "Pas encore de compte ?",
+        "hasAccount": "Déjà un compte ?",
+        "signupLink": "Créer un compte",
+        "loginLink": "Se connecter"
+    },
+    "booking": {
+        "title": "Réservation en ligne",
+        "step1": "Choisir un service",
+        "step2": "Choisir un professionnel",
+        "step3": "Date & Heure",
+        "step4": "Confirmation",
+        "selectService": "Sélectionnez votre prestation",
+        "selectPro": "Choisissez votre styliste",
+        "selectDate": "Choisissez la date",
+        "selectTime": "Choisissez l'heure",
+        "summary": "Récapitulatif",
+        "service": "Service",
+        "professional": "Professionnel",
+        "date": "Date",
+        "time": "Heure",
+        "total": "Total",
+        "confirm": "Confirmer la réservation",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "success": "Réservation confirmée !",
+        "thankYou": "Merci pour votre réservation"
+    },
+    "profile": {
+        "title": "Mon Profil",
+        "welcome": "Bienvenue",
+        "info": "Informations personnelles",
+        "appointments": "Mes rendez-vous",
+        "loyalty": "Points de fidélité",
+        "points": "points",
+        "logout": "Déconnexion",
+        "noAppointments": "Aucun rendez-vous",
+        "upcoming": "À venir",
+        "past": "Passés"
+    },
+    "dashboard": {
+        "title": "Tableau de bord",
+        "overview": "Vue d'ensemble",
+        "appointments": "Rendez-vous",
+        "services": "Services",
+        "team": "Équipe",
+        "statsTotal": "Total rendez-vous",
+        "statsToday": "Aujourd'hui",
+        "statsRevenue": "Revenus estimés",
+        "recent": "Rendez-vous récents",
+        "view": "Voir",
+        "delete": "Supprimer",
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "cancelled": "Annulé"
+    }
+}

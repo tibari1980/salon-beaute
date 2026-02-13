@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
+    const { t, i18n } = useTranslation();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === '/';
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -31,22 +37,34 @@ export default function Navbar() {
                     <div className="navbar-links">
                         {isHome ? (
                             <>
-                                <a href="#accueil" onClick={() => scrollToSection('accueil')}>Accueil</a>
-                                <a href="#services" onClick={() => scrollToSection('services')}>Services</a>
-                                <a href="#equipe" onClick={() => scrollToSection('equipe')}>Équipe</a>
-                                <a href="#temoignages" onClick={() => scrollToSection('temoignages')}>Avis</a>
-                                <a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a>
+                                <a href="#accueil" onClick={() => scrollToSection('accueil')}>{t('nav.home')}</a>
+                                <a href="#services" onClick={() => scrollToSection('services')}>{t('nav.services')}</a>
+                                <a href="#equipe" onClick={() => scrollToSection('equipe')}>{t('nav.team')}</a>
+                                <a href="#temoignages" onClick={() => scrollToSection('temoignages')}>{t('nav.reviews')}</a>
+                                <a href="#contact" onClick={() => scrollToSection('contact')}>{t('nav.contact')}</a>
                             </>
                         ) : (
                             <>
-                                <Link to="/">Accueil</Link>
-                                <Link to="/#services">Services</Link>
-                                <Link to="/#equipe">Équipe</Link>
-                                <Link to="/#contact">Contact</Link>
+                                <Link to="/">{t('nav.home')}</Link>
+                                <Link to="/#services">{t('nav.services')}</Link>
+                                <Link to="/#equipe">{t('nav.team')}</Link>
+                                <Link to="/#contact">{t('nav.contact')}</Link>
                             </>
                         )}
+
+                        <div className="language-switcher">
+                            <button
+                                className={i18n.language === 'fr' ? 'active' : ''}
+                                onClick={() => changeLanguage('fr')}
+                            >FR</button>
+                            <button
+                                className={i18n.language === 'ar' ? 'active' : ''}
+                                onClick={() => changeLanguage('ar')}
+                            >AR</button>
+                        </div>
+
                         <Link to="/reservation" className="btn btn-teal navbar-cta">
-                            Réserver
+                            {t('nav.book')}
                         </Link>
                     </div>
 
@@ -63,27 +81,37 @@ export default function Navbar() {
             <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`}>
                 <button className="mobile-menu-close" onClick={() => setMobileOpen(false)}>✕</button>
                 <div className="mobile-menu-links">
+                    <div className="language-switcher" style={{ marginBottom: '1rem' }}>
+                        <button
+                            className={i18n.language === 'fr' ? 'active' : ''}
+                            onClick={() => changeLanguage('fr')}
+                        >FR</button>
+                        <button
+                            className={i18n.language === 'ar' ? 'active' : ''}
+                            onClick={() => changeLanguage('ar')}
+                        >AR</button>
+                    </div>
                     {isHome ? (
                         <>
-                            <a href="#accueil" onClick={() => scrollToSection('accueil')}>Accueil</a>
-                            <a href="#services" onClick={() => scrollToSection('services')}>Services</a>
-                            <a href="#equipe" onClick={() => scrollToSection('equipe')}>Équipe</a>
-                            <a href="#temoignages" onClick={() => scrollToSection('temoignages')}>Avis</a>
-                            <a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a>
+                            <a href="#accueil" onClick={() => scrollToSection('accueil')}>{t('nav.home')}</a>
+                            <a href="#services" onClick={() => scrollToSection('services')}>{t('nav.services')}</a>
+                            <a href="#equipe" onClick={() => scrollToSection('equipe')}>{t('nav.team')}</a>
+                            <a href="#temoignages" onClick={() => scrollToSection('temoignages')}>{t('nav.reviews')}</a>
+                            <a href="#contact" onClick={() => scrollToSection('contact')}>{t('nav.contact')}</a>
                         </>
                     ) : (
                         <>
-                            <Link to="/" onClick={() => setMobileOpen(false)}>Accueil</Link>
-                            <Link to="/#services" onClick={() => setMobileOpen(false)}>Services</Link>
-                            <Link to="/#equipe" onClick={() => setMobileOpen(false)}>Équipe</Link>
-                            <Link to="/#contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+                            <Link to="/" onClick={() => setMobileOpen(false)}>{t('nav.home')}</Link>
+                            <Link to="/#services" onClick={() => setMobileOpen(false)}>{t('nav.services')}</Link>
+                            <Link to="/#equipe" onClick={() => setMobileOpen(false)}>{t('nav.team')}</Link>
+                            <Link to="/#contact" onClick={() => setMobileOpen(false)}>{t('nav.contact')}</Link>
                         </>
                     )}
                     <Link to="/reservation" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
-                        Réserver maintenant
+                        {t('nav.bookNow')}
                     </Link>
                     <Link to="/connexion" className="btn btn-outline" onClick={() => setMobileOpen(false)}>
-                        Connexion
+                        {t('nav.login')}
                     </Link>
                 </div>
             </div>

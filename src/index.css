@@ -32,6 +32,7 @@
   /* Typography */
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-arabic: 'Cairo', 'Tajawal', sans-serif;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -1856,4 +1857,103 @@ select {
   .booking-services-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============================================
+   RTL (Right-to-Left) Support for Arabic
+   ============================================ */
+
+html[lang="ar"] body {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+html[lang="ar"] .section-title,
+html[lang="ar"] .hero-title,
+html[lang="ar"] .navbar-logo,
+html[lang="ar"] .team-card-name,
+html[lang="ar"] .service-card-title,
+html[lang="ar"] .cta-title,
+html[lang="ar"] .footer-brand-name {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+html[dir="rtl"] .navbar-links a::after {
+  left: auto;
+  right: 0;
+}
+
+html[dir="rtl"] .hero-content {
+  padding-left: 0;
+  padding-right: 5%;
+}
+
+html[dir="rtl"] .about-content .section-subtitle,
+html[dir="rtl"] .about-content .section-title {
+  text-align: right;
+}
+
+html[dir="rtl"] .about-image-accent {
+  right: auto;
+  left: -20px;
+}
+
+html[dir="rtl"] .about-stats {
+  left: auto;
+  right: 30px;
+}
+
+html[dir="rtl"] .service-card-price {
+  right: auto;
+  left: 16px;
+}
+
+html[dir="rtl"] .hero-scroll-hint {
+  right: auto;
+  left: 40px;
+}
+
+html[dir="rtl"] .footer-grid {
+  direction: rtl;
+}
+
+html[dir="rtl"] .btn::before {
+  left: auto;
+  right: -100%;
+}
+
+html[dir="rtl"] .btn:hover::before {
+  right: 100%;
+  left: auto;
+}
+
+/* Language Switcher */
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 3px;
+}
+
+.language-switcher button {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-gray-400);
+  background: transparent;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+  letter-spacing: 0.5px;
+}
+
+.language-switcher button.active {
+  background: var(--color-gold);
+  color: var(--color-black);
+}
+
+.language-switcher button:hover:not(.active) {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.08);
 }

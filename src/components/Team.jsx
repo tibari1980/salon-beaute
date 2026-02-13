@@ -1,50 +1,33 @@
-const team = [
-    {
-        name: 'Sophie Laurent',
-        role: 'Coiffeuse Styliste',
-        bio: '12 ans d\'expérience en coiffure. Spécialiste des coupes modernes et colorations créatives.',
-        image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
-    },
-    {
-        name: 'Marc Dubois',
-        role: 'Barbier Expert',
-        bio: 'Passionné par l\'art du rasage et les coupes masculines. Formé dans les meilleures académies parisiennes.',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-    },
-    {
-        name: 'Amira Benali',
-        role: 'Esthéticienne',
-        bio: 'Experte en soins du visage et maquillage professionnel. Certifiée en dermocosmétique.',
-        image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80',
-    },
-    {
-        name: 'Clara Martin',
-        role: 'Manucuriste',
-        bio: 'Artiste des ongles, spécialiste nail art et soins des mains. Toujours à la pointe des tendances.',
-        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
-    },
+import { useTranslation } from 'react-i18next';
+
+const memberImages = [
+    'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80',
+    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
 ];
 
 export default function Team() {
+    const { t } = useTranslation();
+    const members = t('team.members', { returnObjects: true });
+
     return (
         <section className="team section" id="equipe">
             <div className="container">
                 <div className="section-header">
-                    <span className="section-subtitle">Notre équipe</span>
+                    <span className="section-subtitle">{t('team.badge')}</span>
                     <h2 className="section-title">
-                        Des <span>Experts</span> à Votre Service
+                        {t('team.title')} <span>{t('team.titleHighlight')}</span> {t('team.titleEnd')}
                     </h2>
-                    <p className="section-description">
-                        Une équipe de professionnels passionnés, dédiés à sublimer votre beauté avec talent et bienveillance.
-                    </p>
+                    <p className="section-description">{t('team.subtitle')}</p>
                 </div>
 
                 <div className="team-grid">
-                    {team.map((member, index) => (
+                    {members.map((member, index) => (
                         <div key={index} className="team-card">
                             <div className="team-card-image-wrapper">
                                 <img
-                                    src={member.image}
+                                    src={memberImages[index]}
                                     alt={member.name}
                                     className="team-card-image"
                                     loading="lazy"
