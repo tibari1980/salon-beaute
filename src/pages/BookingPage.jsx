@@ -97,6 +97,9 @@ export default function BookingPage() {
                 return;
             }
 
+            // Generate a readable booking reference
+            const ref = 'BC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
             const docRef = await addDoc(collection(db, 'appointments'), {
                 userId: auth.currentUser.uid,
                 userName: auth.currentUser.displayName || t('booking.client'),
@@ -111,11 +114,10 @@ export default function BookingPage() {
                 time: selectedTime,
                 status: 'confirmed',
                 currency: 'Dhs',
+                ref: ref,
                 createdAt: new Date().toISOString(),
             });
 
-            // Generate a readable booking reference
-            const ref = 'BC-' + docRef.id.slice(-6).toUpperCase();
             setBookingRef(ref);
             setSuccess(true);
         } catch (err) {
