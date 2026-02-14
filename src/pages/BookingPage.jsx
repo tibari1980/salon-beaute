@@ -6,16 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const serviceOptions = [
-    { id: 'coupe', price: 250, duration: '45 min', icon: '✂️' },
-    { id: 'lissage', price: 1200, duration: '3h', icon: '🧬' },
-    { id: 'coloration', price: 600, duration: '2h30', icon: '🎨' },
-    { id: 'hammam', price: 350, duration: '1h15', icon: '🧖‍♀️' },
-    { id: 'manucure', price: 250, duration: '1h', icon: '💅' },
-    { id: 'maquillage', price: 500, duration: '1h', icon: '💄' },
-    { id: 'soin', price: 350, duration: '60 min', icon: '✨' },
-    { id: 'pedicure', price: 200, duration: '55 min', icon: '🦶' },
-];
+
 
 const professionals = [
     { id: 'sophie', name: 'Sophie Laurent', roleId: 'coiffeuse' },
@@ -32,11 +23,13 @@ const timeSlots = [
 export default function BookingPage() {
     const { t, i18n } = useTranslation();
     const [step, setStep] = useState(1);
+    const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
     const [selectedPro, setSelectedPro] = useState(null);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [loading, setLoading] = useState(false);
+    const [servicesLoading, setServicesLoading] = useState(true);
     const [success, setSuccess] = useState(false);
     const [bookingRef, setBookingRef] = useState('');
     const [error, setError] = useState('');
@@ -48,16 +41,32 @@ export default function BookingPage() {
         window.scrollTo({ top: 0, behavior: 'instant' });
     }, []);
 
+    // Load services from Firestore
+    useEffect(() => {
+        const loadServices = async () => {
+            try {
+                const snapshot = await getDocs(collection(db, 'services'));
+                const fetchedServices = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() })); // Ensure ID is accessible
+                setServices(fetchedServices);
+            } catch (err) {
+                console.error("Error loading services:", err);
+            } finally {
+                setServicesLoading(false);
+            }
+        };
+        loadServices();
+    }, []);
+
     // Handle pre-selection from Services page
     useEffect(() => {
-        if (location.state?.serviceId) {
-            const service = serviceOptions.find(s => s.id === location.state.serviceId);
+        if (!servicesLoading && location.state?.serviceId && services.length > 0) {
+            const service = services.find(s => s.id === location.state.serviceId);
             if (service) {
                 setSelectedService(service);
                 // setStep(2); // Optional: Auto-advance
             }
         }
-    }, [location.state]);
+    }, [location.state, services, servicesLoading]);
 
     const handleBooking = async () => {
         // Check authentication
@@ -295,7 +304,7 @@ export default function BookingPage() {
                             <>
                                 <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>{t('booking.selectService')}</h3>
                                 <div className="booking-services-grid">
-                                    {serviceOptions.map((s) => (
+                                    {servicesLoading ? <div style={{ textAlign: 'center', width: '100%', padding: '2rem', color: 'var(--color-gray-500)' }}>Chargement des services...</div> : services.map((s) => (
                                         <div
                                             key={s.id}
                                             className={`booking-service-option ${selectedService?.id === s.id ? 'selected' : ''}`}

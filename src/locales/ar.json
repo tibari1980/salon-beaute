@@ -257,6 +257,7 @@
         "errorPermission": "ليس لديك صلاحية الحجز.",
         "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
         "errorDoubleBooking": "هذا الموعد محجوز مسبقاً لهذا الخبير. يرجى اختيار موعد آخر.",
+        "errorIncomplete": "يرجى إكمال جميع الخطوات.",
         "selectService": "اختاري الخدمة",
         "selectPro": "مع من؟",
         "selectDate": "تاريخ الموعد",

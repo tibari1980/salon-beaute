@@ -10,6 +10,11 @@ import DashboardPage from './pages/DashboardPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import ScrollToTop from './components/ScrollToTop';
+import AdminLayout from './components/layouts/AdminLayout';
+import AdminRoute from './components/auth/AdminRoute';
+import AdminServices from './pages/admin/AdminServices';
+import AdminAppointments from './pages/admin/AdminAppointments';
+import AdminUsers from './pages/admin/AdminUsers';
 
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
@@ -32,7 +37,16 @@ export default function App() {
                 <Route path="/mot-de-passe-oublie" element={<ForgotPasswordPage />} />
                 <Route path="/reservation" element={<BookingPage />} />
                 <Route path="/profil" element={<ProfilePage />} />
-                <Route path="/admin" element={<DashboardPage />} />
+                <Route path="/admin" element={
+                    <AdminRoute>
+                        <AdminLayout />
+                    </AdminRoute>
+                }>
+                    <Route index element={<DashboardPage />} />
+                    <Route path="appointments" element={<AdminAppointments />} />
+                    <Route path="services" element={<AdminServices />} />
+                    <Route path="users" element={<AdminUsers />} />
+                </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
