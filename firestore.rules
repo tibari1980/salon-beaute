@@ -47,5 +47,13 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow update, delete: if isOwner(resource.data.userId) || isAdmin();
     }
+
+    // Team/Stylists collection:
+    // - Read: Public
+    // - Write: Admin only
+    match /team/{memberId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

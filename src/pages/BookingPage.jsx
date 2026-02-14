@@ -8,13 +8,6 @@ import Footer from '../components/Footer';
 
 
 
-const professionals = [
-    { id: 'sophie', name: 'Sophie Laurent', roleId: 'coiffeuse' },
-    { id: 'marc', name: 'Marc Dubois', roleId: 'barbier' },
-    { id: 'amira', name: 'Amira Benali', roleId: 'estheticienne' },
-    { id: 'clara', name: 'Clara Martin', roleId: 'manucuriste' },
-];
-
 const timeSlots = [
     '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
     '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -24,6 +17,7 @@ export default function BookingPage() {
     const { t, i18n } = useTranslation();
     const [step, setStep] = useState(1);
     const [services, setServices] = useState([]);
+    const [professionals, setProfessionals] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
     const [selectedPro, setSelectedPro] = useState(null);
     const [selectedDate, setSelectedDate] = useState('');
@@ -41,20 +35,27 @@ export default function BookingPage() {
         window.scrollTo({ top: 0, behavior: 'instant' });
     }, []);
 
-    // Load services from Firestore
+    // Load services and team from Firestore
     useEffect(() => {
-        const loadServices = async () => {
+        const loadData = async () => {
             try {
-                const snapshot = await getDocs(collection(db, 'services'));
-                const fetchedServices = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() })); // Ensure ID is accessible
+                const [servicesSnapshot, teamSnapshot] = await Promise.all([
+                    getDocs(collection(db, 'services')),
+                    getDocs(collection(db, 'team'))
+                ]);
+
+                const fetchedServices = servicesSnapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
                 setServices(fetchedServices);
+
+                const fetchedTeam = teamSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setProfessionals(fetchedTeam);
             } catch (err) {
-                console.error("Error loading services:", err);
+                console.error("Error loading data:", err);
             } finally {
                 setServicesLoading(false);
             }
         };
-        loadServices();
+        loadData();
     }, []);
 
     // Handle pre-selection from Services page

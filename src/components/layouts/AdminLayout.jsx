@@ -50,7 +50,14 @@ export default function AdminLayout() {
                     to="/admin/users"
                     className={`dashboard-nav-item ${isActive('/admin/users') ? 'active' : ''}`}
                 >
-                    👥 {t('dashboard.team')}
+                    👥 {t('dashboard.clients')}
+                </Link>
+
+                <Link
+                    to="/admin/team"
+                    className={`dashboard-nav-item ${isActive('/admin/team') ? 'active' : ''}`}
+                >
+                    💇‍♀️ {t('dashboard.team')}
                 </Link>
 
                 <Link
@@ -78,7 +85,8 @@ export default function AdminLayout() {
                         {isActive('/admin') && t('dashboard.overview')}
                         {isActive('/admin/appointments') && t('dashboard.appointments')}
                         {isActive('/admin/services') && t('dashboard.services')}
-                        {isActive('/admin/users') && t('dashboard.team')}
+                        {isActive('/admin/users') && t('dashboard.clients')}
+                        {isActive('/admin/team') && t('dashboard.team')}
                     </h1>
                     <div style={{ color: 'var(--color-gray-500)', fontSize: '0.9rem' }}>
                         {t('dashboard.welcome')} <span style={{ color: 'var(--color-gold)' }}>{currentUser?.email}</span>
