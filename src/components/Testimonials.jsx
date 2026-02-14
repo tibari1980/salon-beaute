@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { collection, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,37 +9,62 @@ export default function Testimonials() {
     const { currentUser } = useAuth();
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userReview, setUserReview] = useState(null);
 
     // Modal state
     const [showModal, setShowModal] = useState(false);
     const [newReview, setNewReview] = useState({ rating: 5, text: '', service: '' });
     const [submitting, setSubmitting] = useState(false);
+    const [editingReviewId, setEditingReviewId] = useState(null);
 
     useEffect(() => {
         loadReviews();
-    }, [t]);
+    }, [t, currentUser]);
 
     const loadReviews = async () => {
         try {
             const snapshot = await getDocs(collection(db, 'reviews'));
             if (!snapshot.empty) {
-                setReviews(snapshot.docs.map(doc => doc.data()));
+                const reviewsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setReviews(reviewsData);
+
+                // Check if current user has a review
+                if (currentUser) {
+                    const myReview = reviewsData.find(r => r.userId === currentUser.uid);
+                    setUserReview(myReview || null);
+                }
             } else {
                 // Fallback to translations if DB is empty
-                setReviews(t('testimonials.items', { returnObjects: true }).map((item, index) => ({
-                    ...item,
-                    rating: 5,
-                    image: [
-                        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
-                        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80',
-                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80',
-                    ][index]
-                })));
+                setReviews(t('testimonials.items', { returnObjects: true }));
             }
         } catch (err) {
             console.error("Error loading reviews:", err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const openEditModal = () => {
+        if (!userReview) return;
+        setNewReview({
+            rating: userReview.rating,
+            text: userReview.text,
+            service: userReview.service
+        });
+        setEditingReviewId(userReview.id);
+        setShowModal(true);
+    };
+
+    const handleDeleteReview = async () => {
+        if (!userReview || !window.confirm("Supprimer votre avis ?")) return;
+        try {
+            await deleteDoc(doc(db, 'reviews', userReview.id));
+            alert("Avis supprimé.");
+            setUserReview(null);
+            loadReviews(); // Refresh list
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            alert("Erreur lors de la suppression.");
         }
     };
 
@@ -49,29 +74,52 @@ export default function Testimonials() {
         setSubmitting(true);
         try {
             const reviewData = {
-                name: currentUser.displayName || "Cliente", // Should come from profile
+                name: currentUser.displayName || "Cliente",
                 text: newReview.text,
                 rating: Number(newReview.rating),
                 service: newReview.service || "Service",
-                image: currentUser.photoURL || "https://via.placeholder.com/100",
+                image: currentUser.photoURL || "", // Empty string to trigger initials fallback
                 userId: currentUser.uid,
-                createdAt: serverTimestamp(),
-                active: true // Auto-publish for now
+                updatedAt: serverTimestamp(),
+                active: true
             };
 
-            await addDoc(collection(db, 'reviews'), reviewData);
+            if (editingReviewId) {
+                // Update existing
+                await updateDoc(doc(db, 'reviews', editingReviewId), reviewData);
+                alert("Votre avis a été modifié ! ✨");
+            } else {
+                // Double check if user already has a review to prevent duplicates via race condition
+                if (userReview) {
+                    alert("Vous avez déjà publié un avis.");
+                    return;
+                }
 
-            // Close and refresh
+                // Create new
+                reviewData.createdAt = serverTimestamp();
+                await addDoc(collection(db, 'reviews'), reviewData);
+                alert("Merci pour votre avis ! ⭐");
+            }
+
             setShowModal(false);
+            setEditingReviewId(null);
             setNewReview({ rating: 5, text: '', service: '' });
-            alert("Merci pour votre avis ! ⭐");
             loadReviews();
         } catch (error) {
-            console.error("Error adding review:", error);
-            alert("Erreur lors de l'envoi de l'avis.");
+            console.error("Error saving review:", error);
+            alert("Erreur lors de l'enregistrement.");
         } finally {
             setSubmitting(false);
         }
+    };
+
+    const getInitials = (name) => {
+        return name
+            ?.split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2) || '?';
     };
 
     return (
@@ -85,11 +133,37 @@ export default function Testimonials() {
                     <p className="section-description">{t('testimonials.subtitle')}</p>
                 </div>
 
+                {/* User Action Area */}
                 {currentUser && (
-                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <button onClick={() => setShowModal(true)} className="btn btn-primary">
-                            ✍️ Donner mon avis
-                        </button>
+                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                        {userReview ? (
+                            <div style={{
+                                background: 'rgba(212, 175, 55, 0.1)',
+                                border: '1px solid var(--color-gold)',
+                                borderRadius: '12px',
+                                padding: '1.5rem',
+                                maxWidth: '600px',
+                                margin: '0 auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: '1rem',
+                                flexWrap: 'wrap'
+                            }}>
+                                <div style={{ textAlign: 'left' }}>
+                                    <h4 style={{ color: 'var(--color-gold)', marginBottom: '0.2rem' }}>Votre avis est publié</h4>
+                                    <p style={{ fontSize: '0.9rem', color: '#ccc' }}>Merci d'avoir partagé votre expérience !</p>
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <button onClick={openEditModal} className="btn btn-sm" style={{ background: '#333', color: '#fff', border: 'none', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}>✏️ Modifier</button>
+                                    <button onClick={handleDeleteReview} className="btn btn-sm" style={{ background: 'rgba(248, 113, 113, 0.2)', color: '#f87171', border: '1px solid #f87171', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}>🗑️ Supprimer</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <button onClick={() => { setEditingReviewId(null); setShowModal(true); }} className="btn btn-primary">
+                                ✍️ Donner mon avis
+                            </button>
+                        )}
                     </div>
                 )}
 
@@ -103,12 +177,34 @@ export default function Testimonials() {
                             </div>
                             <p className="testimonial-text">"{item.text}"</p>
                             <div className="testimonial-author">
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
-                                    className="testimonial-author-image"
-                                    loading="lazy"
-                                />
+                                {item.image && !item.image.includes('placeholder') ? (
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        className="testimonial-author-image"
+                                        loading="lazy"
+                                        onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                                    />
+                                ) : null}
+
+                                {/* Fallback Initials */}
+                                <div style={{
+                                    display: (item.image && !item.image.includes('placeholder')) ? 'none' : 'flex',
+                                    width: '60px',
+                                    height: '60px',
+                                    borderRadius: '50%',
+                                    background: '#222',
+                                    border: '1px solid var(--color-gold)',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontWeight: 'bold',
+                                    color: 'var(--color-gold)',
+                                    marginRight: '1rem',
+                                    fontSize: '1.1rem'
+                                }}>
+                                    {getInitials(item.name)}
+                                </div>
+
                                 <div>
                                     <div className="testimonial-author-name">{item.name}</div>
                                     <div className="testimonial-author-service">{item.service}</div>
@@ -135,7 +231,9 @@ export default function Testimonials() {
                             >
                                 &times;
                             </button>
-                            <h3 style={{ color: 'var(--color-gold)', marginBottom: '1.5rem', textAlign: 'center' }}>Votre expérience</h3>
+                            <h3 style={{ color: 'var(--color-gold)', marginBottom: '1.5rem', textAlign: 'center' }}>
+                                {editingReviewId ? "Modifier votre avis" : "Votre expérience"}
+                            </h3>
 
                             <form onSubmit={handleSubmitReview} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                 <div>
@@ -183,7 +281,7 @@ export default function Testimonials() {
                                 </div>
 
                                 <button type="submit" className="btn btn-primary" disabled={submitting}>
-                                    {submitting ? 'Envoi...' : 'Publier mon avis'}
+                                    {submitting ? 'Envoi...' : (editingReviewId ? 'Mettre à jour' : 'Publier mon avis')}
                                 </button>
                             </form>
                         </div>
