@@ -22,7 +22,10 @@ export default function AdminRoute({ children }) {
     }
 
     // Strict check
-    if (!ADMIN_EMAILS.includes(currentUser.email)) {
+    const normalizedUserEmail = currentUser.email?.toLowerCase().trim();
+    const normalizedAdminEmails = ADMIN_EMAILS.map(e => e.toLowerCase());
+
+    if (!normalizedAdminEmails.includes(normalizedUserEmail)) {
         return <Navigate to="/" />;
     }
 
