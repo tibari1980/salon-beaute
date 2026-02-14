@@ -310,7 +310,9 @@
             "coiffeuse": "مصففة شعر",
             "barbier": "حلاق",
             "estheticienne": "أخصائية تجميل",
-            "manucuriste": "أخصائية أظافر"
+            "manucuriste": "أخصائية أظافر",
+            "masseuse": "مدلكة",
+            "manager": "مديرة"
         }
     },
     "notFound": {

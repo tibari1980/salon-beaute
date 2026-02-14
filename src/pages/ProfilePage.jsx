@@ -154,6 +154,16 @@ export default function ProfilePage() {
         return t(`profile.status.${status}`) || status;
     };
 
+    const formatService = (service) => {
+        if (!service) return '';
+        if (service.startsWith('booking.services.')) {
+            const key = service;
+            const translated = t(key);
+            return translated !== key ? translated : key.split('.').pop();
+        }
+        return service;
+    };
+
     return (
         <>
             <Navbar />
@@ -203,7 +213,7 @@ export default function ProfilePage() {
                                 appointments.map((apt) => (
                                     <div key={apt.id} className="appointment-item">
                                         <div style={{ flex: 1 }}>
-                                            <div className="appointment-service">{apt.service}</div>
+                                            <div className="appointment-service">{formatService(apt.service)}</div>
                                             <div className="appointment-date">
                                                 {apt.date} — {apt.time} — {apt.professional}
                                             </div>

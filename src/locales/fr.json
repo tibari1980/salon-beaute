@@ -281,7 +281,9 @@
             "coiffeuse": "Coiffeuse",
             "barbier": "Barbier",
             "estheticienne": "Esthéticienne",
-            "manucuriste": "Manucuriste"
+            "manucuriste": "Manucuriste",
+            "masseuse": "Masseuse",
+            "manager": "Manager"
         }
     },
     "dashboard": {

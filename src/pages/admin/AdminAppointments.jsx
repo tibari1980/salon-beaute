@@ -57,6 +57,16 @@ export default function AdminAppointments() {
 
     const getStatusLabel = (status) => t(`dashboard.status.${status}`) || status;
 
+    const formatService = (service) => {
+        if (!service) return '';
+        if (service.startsWith('booking.services.')) {
+            const key = service;
+            const translated = t(key);
+            return translated !== key ? translated : key.split('.').pop();
+        }
+        return service;
+    };
+
     if (loading) return <div>Chargement...</div>;
 
     return (
@@ -113,7 +123,7 @@ export default function AdminAppointments() {
                                     {apt.ref && <div style={{ fontSize: '0.8rem', color: 'var(--color-gold)' }}>Ref: {apt.ref}</div>}
                                 </td>
                                 <td style={{ padding: '1rem' }}>
-                                    {apt.service}
+                                    {formatService(apt.service)}
                                     <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)' }}>{apt.servicePrice} Dhs</div>
                                 </td>
                                 <td style={{ padding: '1rem' }}>

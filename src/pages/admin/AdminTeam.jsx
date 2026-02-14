@@ -164,7 +164,7 @@ export default function AdminTeam() {
                                         background: 'rgba(212, 175, 55, 0.1)', color: 'var(--color-gold)',
                                         fontSize: '0.9rem'
                                     }}>
-                                        {t(`roles.${member.roleId}`) !== `roles.${member.roleId}` ? t(`roles.${member.roleId}`) : member.roleId}
+                                        {t(`booking.roles.${member.roleId}`) !== `booking.roles.${member.roleId}` ? t(`booking.roles.${member.roleId}`) : member.roleId}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem' }}>

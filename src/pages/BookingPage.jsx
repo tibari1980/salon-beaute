@@ -114,7 +114,7 @@ export default function BookingPage() {
                 userId: auth.currentUser.uid,
                 userName: auth.currentUser.displayName || t('booking.client'),
                 userEmail: auth.currentUser.email || '',
-                service: t(`booking.services.${selectedService.id}`, { lng: 'fr' }), // Store in French or ID? Storing French for admin clarity
+                service: t(`booking.services.${selectedService.id}`, { lng: 'fr' }) !== `booking.services.${selectedService.id}` ? t(`booking.services.${selectedService.id}`, { lng: 'fr' }) : selectedService.id,
                 serviceId: selectedService.id,
                 servicePrice: selectedService.price,
                 serviceDuration: selectedService.duration,
@@ -206,7 +206,9 @@ export default function BookingPage() {
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                                 <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.service')}</span>
-                                <span style={{ fontWeight: 600 }}>{selectedService?.icon} {t(`booking.services.${selectedService?.id}`)}</span>
+                                <span style={{ fontWeight: 600 }}>
+                                    {selectedService?.icon} {t(`booking.services.${selectedService?.id}`) !== `booking.services.${selectedService?.id}` ? t(`booking.services.${selectedService?.id}`) : selectedService?.id}
+                                </span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                                 <span style={{ color: 'var(--color-gray-500)' }}>{t('booking.professional')}</span>
@@ -318,7 +320,9 @@ export default function BookingPage() {
                                             onClick={() => setSelectedService(s)}
                                         >
                                             <div className="booking-service-icon">{s.icon}</div>
-                                            <div className="booking-service-name">{t(`booking.services.${s.id}`)}</div>
+                                            <div className="booking-service-name">
+                                                {t(`booking.services.${s.id}`) !== `booking.services.${s.id}` ? t(`booking.services.${s.id}`) : s.id}
+                                            </div>
                                             <div className="booking-service-price">{s.price} Dhs</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)', marginTop: '0.25rem' }}>{s.duration}</div>
                                         </div>
@@ -349,7 +353,9 @@ export default function BookingPage() {
                                         >
                                             <div className="booking-service-icon">👤</div>
                                             <div className="booking-service-name">{p.name}</div>
-                                            <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)' }}>{t(`booking.roles.${p.roleId}`)}</div>
+                                            <div style={{ fontSize: '0.85rem', color: 'var(--color-gold)' }}>
+                                                {t(`booking.roles.${p.roleId}`) !== `booking.roles.${p.roleId}` ? t(`booking.roles.${p.roleId}`) : p.roleId}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
