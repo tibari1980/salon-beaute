@@ -17,12 +17,14 @@ service cloud.firestore {
       allow read, write: if isOwner(userId);
     }
 
-    // Appointments collection: 
+      // Appointments collection: 
     // - Create: Allowed for any authenticated user
-    // - Read/Update/Delete: Allowed only if the user owns the appointment
+    // - Read: Allowed for any authenticated user (necessary for availability check)
+    // - Update/Delete: Allowed only if the user owns the appointment
     match /appointments/{appointmentId} {
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow read: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
     }
   }
 }
