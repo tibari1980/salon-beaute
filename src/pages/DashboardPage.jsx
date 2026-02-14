@@ -35,8 +35,20 @@ export default function DashboardPage() {
     };
 
     // Helper for translation lookups
+    // Helper for translation lookups
     const getServiceTitle = (id, fallbackName) => {
-        return id ? t(`booking.services.${id}`) : fallbackName;
+        if (id) {
+            const key = `booking.services.${id}`;
+            const translated = t(key);
+            return translated !== key ? translated : id;
+        }
+        // Fallback for stored strings that might be keys
+        if (fallbackName && fallbackName.startsWith('booking.services.')) {
+            const key = fallbackName;
+            const translated = t(key);
+            return translated !== key ? translated : key.split('.').pop();
+        }
+        return fallbackName;
     };
 
     const getStatusLabel = (status) => t(`dashboard.status.${status}`) || status;

@@ -61,6 +61,13 @@ export default function AdminLayout() {
                 </Link>
 
                 <Link
+                    to="/admin/reviews"
+                    className={`dashboard-nav-item ${isActive('/admin/reviews') ? 'active' : ''}`}
+                >
+                    ⭐ Avis
+                </Link>
+
+                <Link
                     to="/admin/settings"
                     className={`dashboard-nav-item ${isActive('/admin/settings') ? 'active' : ''}`}
                 >

@@ -5,6 +5,7 @@ import { db, auth } from '../firebase';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 
 
@@ -250,6 +251,11 @@ export default function BookingPage() {
     // ──────────────── BOOKING FORM ────────────────
     return (
         <>
+            <SEO
+                title="Réserver un Rendez-vous"
+                description="Prenez rendez-vous en ligne chez JL Beauty. Choisissez votre soin, votre experte et votre créneau horaire en quelques clics."
+                url="/reservation"
+            />
             <Navbar />
             <div className={`booking-page ${i18n.language === 'ar' ? 'rtl' : ''}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                 <div className="container">

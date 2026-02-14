@@ -55,5 +55,13 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+
+    // Reviews collection:
+    // - Read: Public
+    // - Write: Admin only
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

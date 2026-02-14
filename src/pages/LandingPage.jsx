@@ -6,10 +6,15 @@ import Team from '../components/Team';
 import Testimonials from '../components/Testimonials';
 import CallToAction from '../components/CallToAction';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 export default function LandingPage() {
     return (
         <>
+            <SEO
+                title="Salon de Beauté & Coiffure à Casablanca"
+                description="Découvrez JL Beauty, votre destination luxe pour la coiffure, les soins du visage, le lissage et l'onglerie à Casablanca. Réservez votre moment de détente."
+            />
             <Navbar />
             <HeroSlider />
             <About />

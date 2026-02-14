@@ -16,7 +16,9 @@ import AdminServices from './pages/admin/AdminServices';
 import AdminAppointments from './pages/admin/AdminAppointments';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminTeam from './pages/admin/AdminTeam';
-import AdminSettings from './pages/admin/AdminSettings';
+import AdminReviews from './pages/admin/AdminReviews';
+
+
 
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
@@ -49,6 +51,7 @@ export default function App() {
                     <Route path="services" element={<AdminServices />} />
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="team" element={<AdminTeam />} />
+                    <Route path="reviews" element={<AdminReviews />} />
                     <Route path="settings" element={<AdminSettings />} />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />

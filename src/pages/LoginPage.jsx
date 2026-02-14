@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
+import SEO from '../components/SEO';
 
 export default function LoginPage() {
     const { t } = useTranslation();
@@ -39,6 +40,11 @@ export default function LoginPage() {
     return (
         <div className="auth-page">
             <div className="auth-bg-overlay"></div>
+            <SEO
+                title="Connexion"
+                description="Connectez-vous à votre espace JL Beauty pour gérer vos rendez-vous et accéder à vos offres exclusives."
+                url="/connexion"
+            />
             <div className="auth-container">
                 <div className="auth-card glass-effect">
                     <div className="auth-header">
