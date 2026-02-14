@@ -164,7 +164,7 @@ export default function ProfilePage() {
                             <p>{user?.email}</p>
                         </div>
                         <div style={{ marginLeft: i18n.language === 'ar' ? 0 : 'auto', marginRight: i18n.language === 'ar' ? 'auto' : 0, display: 'flex', gap: '1rem' }}>
-                            {['admin@jlbeauty.ma', 'zerou@example.com'].includes(user?.email) && (
+                            {['admin@jlbeauty.ma', 'zerou@example.com', 'tibarinewdzign@gmail.com'].includes(user?.email) && (
                                 <button className="btn btn-primary btn-sm" onClick={() => navigate('/admin')}>
                                     🛠️ Admin
                                 </button>

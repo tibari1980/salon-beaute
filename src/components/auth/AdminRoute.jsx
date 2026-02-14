@@ -9,9 +9,8 @@ export default function AdminRoute({ children }) {
     // For this MVP, we'll allow specific emails or valid users if we want to test easily
     const ADMIN_EMAILS = [
         'admin@jlbeauty.ma',
-        'zerou@example.com', // Add the user's email here if known, otherwise they can register as admin
-        // For testing purposes, let's allow any authenticated user initially
-        // TODO: Enforce strict email check after testing
+        'zerou@example.com',
+        'tibarinewdzign@gmail.com'
     ];
 
     if (loading) {
@@ -22,10 +21,10 @@ export default function AdminRoute({ children }) {
         return <Navigate to="/connexion" />;
     }
 
-    // Strict check (Uncomment to enforce)
-    // if (!ADMIN_EMAILS.includes(currentUser.email)) {
-    //     return <Navigate to="/" />;
-    // }
+    // Strict check
+    if (!ADMIN_EMAILS.includes(currentUser.email)) {
+        return <Navigate to="/" />;
+    }
 
     return children;
 }
