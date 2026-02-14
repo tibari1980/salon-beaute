@@ -17,6 +17,9 @@ export default function Testimonials() {
     const [submitting, setSubmitting] = useState(false);
     const [editingReviewId, setEditingReviewId] = useState(null);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const REVIEWS_PER_PAGE = 6;
+
     useEffect(() => {
         loadReviews();
     }, [t, currentUser]);
@@ -25,16 +28,31 @@ export default function Testimonials() {
         try {
             const snapshot = await getDocs(collection(db, 'reviews'));
             if (!snapshot.empty) {
-                const reviewsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setReviews(reviewsData);
+                let allReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // 1. Client-side Deduplication (Senior Fix 🎩)
+                // Keep only the most recent review per userId
+                const uniqueMap = new Map();
+                // Sort by createdAt desc first to prioritize new ones
+                allReviews.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+                allReviews.forEach(review => {
+                    // If review has userId, use it as key, otherwise use ID (for old anon reviews)
+                    const key = review.userId || review.id;
+                    if (!uniqueMap.has(key)) {
+                        uniqueMap.set(key, review);
+                    }
+                });
+
+                const cleanedReviews = Array.from(uniqueMap.values());
+                setReviews(cleanedReviews);
 
                 // Check if current user has a review
                 if (currentUser) {
-                    const myReview = reviewsData.find(r => r.userId === currentUser.uid);
+                    const myReview = cleanedReviews.find(r => r.userId === currentUser.uid);
                     setUserReview(myReview || null);
                 }
             } else {
-                // Fallback to translations if DB is empty
                 setReviews(t('testimonials.items', { returnObjects: true }));
             }
         } catch (err) {
@@ -122,6 +140,14 @@ export default function Testimonials() {
             .substring(0, 2) || '?';
     };
 
+    // Pagination Logic
+    const indexOfLastReview = currentPage * REVIEWS_PER_PAGE;
+    const indexOfFirstReview = indexOfLastReview - REVIEWS_PER_PAGE;
+    const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+    const totalPages = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <section className="testimonials section" id="temoignages">
             <div className="container">
@@ -168,7 +194,7 @@ export default function Testimonials() {
                 )}
 
                 <div className="testimonials-grid">
-                    {reviews.map((item, index) => (
+                    {currentReviews.map((item, index) => (
                         <div key={index} className="testimonial-card">
                             <div className="testimonial-stars">
                                 {[...Array(item.rating || 5)].map((_, i) => (
@@ -190,8 +216,8 @@ export default function Testimonials() {
                                 {/* Fallback Initials */}
                                 <div style={{
                                     display: (item.image && !item.image.includes('placeholder')) ? 'none' : 'flex',
-                                    width: '60px',
-                                    height: '60px',
+                                    width: '50px',
+                                    height: '50px',
                                     borderRadius: '50%',
                                     background: '#222',
                                     border: '1px solid var(--color-gold)',
@@ -200,7 +226,7 @@ export default function Testimonials() {
                                     fontWeight: 'bold',
                                     color: 'var(--color-gold)',
                                     marginRight: '1rem',
-                                    fontSize: '1.1rem'
+                                    fontSize: '0.9rem'
                                 }}>
                                     {getInitials(item.name)}
                                 </div>
@@ -213,6 +239,62 @@ export default function Testimonials() {
                         </div>
                     ))}
                 </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '3rem' }}>
+                        <button
+                            onClick={() => paginate(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            style={{
+                                background: 'transparent',
+                                border: '1px solid var(--color-gold)',
+                                color: currentPage === 1 ? '#666' : 'var(--color-gold)',
+                                padding: '8px 16px',
+                                borderRadius: '4px',
+                                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                                transition: 'all 0.3s'
+                            }}
+                        >
+                            &lt;
+                        </button>
+
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button
+                                key={i + 1}
+                                onClick={() => paginate(i + 1)}
+                                style={{
+                                    background: currentPage === i + 1 ? 'var(--color-gold)' : 'transparent',
+                                    border: '1px solid var(--color-gold)',
+                                    color: currentPage === i + 1 ? '#000' : 'var(--color-gold)',
+                                    padding: '8px 12px',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    transition: 'all 0.3s'
+                                }}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+
+                        <button
+                            onClick={() => paginate(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            style={{
+                                background: 'transparent',
+                                border: '1px solid var(--color-gold)',
+                                color: currentPage === totalPages ? '#666' : 'var(--color-gold)',
+                                padding: '8px 16px',
+                                borderRadius: '4px',
+                                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                                transition: 'all 0.3s'
+                            }}
+                        >
+                            &gt;
+                        </button>
+                    </div>
+                )}
 
                 {/* Review Modal */}
                 {showModal && (

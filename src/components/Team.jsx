@@ -14,9 +14,6 @@ export default function Team() {
                 const snapshot = await getDocs(collection(db, 'team'));
                 if (!snapshot.empty) {
                     setTeam(snapshot.docs.map(doc => doc.data()));
-                } else {
-                    // Fallback to translations/hardcoded if DB is empty
-                    // But preferably we want the user to seed from admin
                 }
             } catch (err) {
                 console.error("Error loading team:", err);
@@ -26,6 +23,15 @@ export default function Team() {
         };
         loadTeam();
     }, []);
+
+    const getInitials = (name) => {
+        return name
+            ?.split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2) || '?';
+    };
 
     return (
         <section className="team section" id="equipe" style={{ backgroundColor: '#0a0a0a', padding: '6rem 0' }}>
@@ -43,32 +49,74 @@ export default function Team() {
                 <div className="team-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '3rem',
+                    gap: '4rem',
                     justifyContent: 'center'
                 }}>
                     {team.map((member, index) => (
-                        <div key={index} className="team-card" style={{ textAlign: 'center' }}>
-                            <div className="team-card-image-wrapper" style={{
-                                width: '200px',
-                                height: '200px',
-                                borderRadius: '50%',
-                                border: '2px solid var(--color-gold)',
-                                padding: '5px',
-                                margin: '0 auto 1.5rem',
-                                transition: 'transform 0.3s ease'
-                            }}>
-                                <img
-                                    src={member.image}
-                                    alt={member.name}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        borderRadius: '50%',
-                                        objectFit: 'cover',
-                                        filter: 'grayscale(20%) sepia(10%)'
-                                    }}
-                                    loading="lazy"
-                                />
+                        <div key={index} className="team-card" style={{ textAlign: 'center', group: 'hover' }}>
+                            <div
+                                className="team-image-container"
+                                style={{
+                                    width: '200px',
+                                    height: '200px',
+                                    borderRadius: '50%',
+                                    border: '2px solid var(--color-gold)',
+                                    padding: '5px',
+                                    margin: '0 auto 1.5rem',
+                                    position: 'relative',
+                                    transition: 'all 0.4s ease',
+                                    cursor: 'pointer',
+                                    overflow: 'hidden' // Important for scaling
+                                }}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 0 30px rgba(212, 175, 55, 0.3)';
+                                    e.currentTarget.style.borderColor = '#fff';
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'var(--color-gold)';
+                                }}
+                            >
+                                {member.image ? (
+                                    <img
+                                        src={member.image}
+                                        alt={member.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            borderRadius: '50%',
+                                            objectFit: 'cover',
+                                            filter: 'grayscale(100%)',
+                                            transition: 'filter 0.4s ease'
+                                        }}
+                                        onMouseEnter={e => e.currentTarget.style.filter = 'grayscale(0%)'}
+                                        onMouseLeave={e => e.currentTarget.style.filter = 'grayscale(100%)'}
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            // Show fallback div (next sibling)
+                                            e.target.nextSibling.style.display = 'flex';
+                                        }}
+                                    />
+                                ) : null}
+
+                                {/* Fallback Initials (Hidden by default if image exists, shown via onError or logic) */}
+                                <div style={{
+                                    display: member.image ? 'none' : 'flex',
+                                    width: '100%',
+                                    height: '100%',
+                                    borderRadius: '50%',
+                                    background: 'linear-gradient(135deg, #111, #222)',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '3rem',
+                                    color: 'var(--color-gold)',
+                                    fontFamily: 'Playfair Display, serif',
+                                    border: '1px solid rgba(255,255,255,0.05)'
+                                }}>
+                                    {getInitials(member.name)}
+                                </div>
                             </div>
 
                             <h3 style={{
@@ -81,9 +129,12 @@ export default function Team() {
                             </h3>
 
                             <span style={{
-                                display: 'block',
+                                display: 'inline-block',
                                 fontSize: '0.8rem',
-                                color: 'var(--color-gold)',
+                                color: '#000',
+                                background: 'var(--color-gold)',
+                                padding: '5px 15px',
+                                borderRadius: '20px',
                                 textTransform: 'uppercase',
                                 letterSpacing: '2px',
                                 marginBottom: '1rem',
@@ -97,9 +148,10 @@ export default function Team() {
                                 color: '#aaa',
                                 lineHeight: '1.6',
                                 maxWidth: '300px',
-                                margin: '0 auto'
+                                margin: '0 auto',
+                                fontStyle: 'italic'
                             }}>
-                                {member.bio}
+                                {member.bio || "Experte Beauté passionnée."}
                             </p>
                         </div>
                     ))}
