@@ -59,11 +59,11 @@ service cloud.firestore {
     // Reviews collection:
     // - Read: Public
     // - Create: Authenticated users
-    // - Update/Delete: Admin only
+    // - Update/Delete: Admin or Owner
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if request.auth != null;
-      allow update, delete: if isAdmin();
+      allow update, delete: if isAdmin() || (request.auth != null && resource.data.userId == request.auth.uid);
     }
   }
 }
