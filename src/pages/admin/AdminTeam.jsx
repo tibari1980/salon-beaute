@@ -5,10 +5,34 @@ import { useTranslation } from 'react-i18next';
 
 // Hardcoded data for seeding
 const INITIAL_TEAM = [
-    { id: 'sophie', name: 'Sophie Laurent', roleId: 'coiffeuse', image: '' },
-    { id: 'marc', name: 'Marc Dubois', roleId: 'barbier', image: '' },
-    { id: 'amira', name: 'Amira Benali', roleId: 'estheticienne', image: '' },
-    { id: 'clara', name: 'Clara Martin', roleId: 'manucuriste', image: '' },
+    {
+        id: 'kenza',
+        name: 'Kenza B.',
+        roleId: 'coloriste',
+        bio: 'La reine du blond polaire et de l\'ombré hair à Casablanca. 8 ans d\'expérience.',
+        image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80'
+    },
+    {
+        id: 'sarah',
+        name: 'Sarah L.',
+        roleId: 'lissage',
+        bio: 'Maîtrise parfaite des lissages (Tanin, Brésilien, Collagène). Diagnostic personnalisé.',
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'
+    },
+    {
+        id: 'nadia',
+        name: 'Nadia H.',
+        roleId: 'estheticienne',
+        bio: 'Experte en soins de la mariée et rituels du Hammam traditionnel.',
+        image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80'
+    },
+    {
+        id: 'leila',
+        name: 'Leila M.',
+        roleId: 'manucuriste',
+        bio: 'Perfectionniste de la manucure russe et du Nail Art créatif.',
+        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80'
+    },
 ];
 
 export default function AdminTeam() {
@@ -16,7 +40,7 @@ export default function AdminTeam() {
     const [team, setTeam] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
-    const [formData, setFormData] = useState({ name: '', roleId: '', image: '' });
+    const [formData, setFormData] = useState({ name: '', roleId: '', bio: '', image: '' });
 
     useEffect(() => {
         loadTeam();
@@ -69,7 +93,7 @@ export default function AdminTeam() {
                 await addDoc(collection(db, 'team'), formData);
             }
             setEditingId(null);
-            setFormData({ name: '', roleId: '', image: '' });
+            setFormData({ name: '', roleId: '', bio: '', image: '' });
             loadTeam();
         } catch (error) {
             console.error("Error saving member:", error);
@@ -113,6 +137,8 @@ export default function AdminTeam() {
                         >
                             <option value="">Rôle...</option>
                             <option value="coiffeuse">Coiffeuse</option>
+                            <option value="coloriste">Coloriste Expert</option>
+                            <option value="lissage">Spécialiste Lissage</option>
                             <option value="barbier">Barbier</option>
                             <option value="estheticienne">Esthéticienne</option>
                             <option value="manucuriste">Manucuriste</option>
@@ -126,9 +152,20 @@ export default function AdminTeam() {
                         value={formData.image || ''} onChange={e => setFormData({ ...formData, image: e.target.value })}
                     />
                 </div>
+
+                <div style={{ marginTop: '1rem' }}>
+                    <textarea
+                        placeholder="Biographie / Expertise (ex: La reine du blond polaire...)"
+                        className="form-input"
+                        rows="3"
+                        value={formData.bio || ''}
+                        onChange={e => setFormData({ ...formData, bio: e.target.value })}
+                    />
+                </div>
+
                 <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
                     <button type="submit" className="btn btn-primary">{editingId ? "Mettre à jour" : "Ajouter"}</button>
-                    {editingId && <button type="button" onClick={() => { setEditingId(null); setFormData({ name: '', roleId: '', image: '' }) }} className="btn btn-outline">Annuler</button>}
+                    {editingId && <button type="button" onClick={() => { setEditingId(null); setFormData({ name: '', roleId: '', bio: '', image: '' }) }} className="btn btn-outline">Annuler</button>}
                 </div>
             </form>
 
@@ -155,7 +192,10 @@ export default function AdminTeam() {
                                         }}>
                                             {!member.image && "👤"}
                                         </div>
-                                        <span style={{ fontWeight: 'bold' }}>{member.name}</span>
+                                        <div>
+                                            <div style={{ fontWeight: 'bold' }}>{member.name}</div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)' }}>{member.bio?.substring(0, 50)}{member.bio?.length > 50 ? '...' : ''}</div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td style={{ padding: '1rem' }}>
@@ -164,7 +204,7 @@ export default function AdminTeam() {
                                         background: 'rgba(212, 175, 55, 0.1)', color: 'var(--color-gold)',
                                         fontSize: '0.9rem'
                                     }}>
-                                        {t(`booking.roles.${member.roleId}`) !== `booking.roles.${member.roleId}` ? t(`booking.roles.${member.roleId}`) : member.roleId}
+                                        {member.roleId}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem' }}>
