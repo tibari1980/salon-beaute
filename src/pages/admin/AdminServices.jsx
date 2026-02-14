@@ -157,31 +157,48 @@ export default function AdminServices() {
                             className="form-input"
                             value={formData.icon}
                             onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                            style={{ fontSize: '1.2rem' }}
+                            style={{ fontSize: '1.2rem', padding: '0.5rem' }}
                         >
-                            <option value="">Choisir...</option>
-                            <option value="✂️">✂️ Ciseaux</option>
-                            <option value="💇‍♀️">💇‍♀️ Coiffure</option>
-                            <option value="🌊">🌊 Wavy / Brushing</option>
-                            <option value="🖌️">🖌️ Pinceau (Coloration)</option>
-                            <option value="🎨">🎨 Palette</option>
-                            <option value="✨">✨ Eclat / Balayage</option>
-                            <option value="🌗">🌗 Ombré</option>
-                            <option value="🧬">🧬 ADN (Lissage)</option>
-                            <option value="🧪">🧪 Tube (Chimie)</option>
-                            <option value="💎">💎 Diamant (Caviar)</option>
-                            <option value="💉">💉 Seringue (Botox)</option>
-                            <option value="🧖‍♀️">🧖‍♀️ Hammam</option>
-                            <option value="👑">👑 Couronne (Royal)</option>
-                            <option value="🌟">🌟 Etoile (VIP)</option>
-                            <option value="💆‍♀️">💆‍♀️ Massage</option>
-                            <option value="💅">💅 Ongles</option>
-                            <option value="🇷🇺">🇷🇺 Russe</option>
-                            <option value="🦶">🦶 Pieds</option>
-                            <option value="🛁">🛁 Bain</option>
-                            <option value="👁️">👁️ Oeil (Sourcils)</option>
-                            <option value="💄">💄 Rouge à lèvres</option>
-                            <option value="👰">👰 Mariée</option>
+                            <option value="">Choisir une icône...</option>
+                            <optgroup label="Coiffure">
+                                <option value="✂️">✂️ Ciseaux</option>
+                                <option value="💇‍♀️">💇‍♀️ Coiffure Femme</option>
+                                <option value="💇‍♂️">💇‍♂️ Coiffure Homme</option>
+                                <option value="💈">💈 Barbier</option>
+                                <option value="🧔">🧔 Barbe</option>
+                                <option value="🌊">🌊 Wavy / Brushing</option>
+                                <option value="👱‍♀️">👱‍♀️ Blonde / Mèches</option>
+                            </optgroup>
+                            <optgroup label="Coloration & Technique">
+                                <option value="🖌️">🖌️ Pinceau</option>
+                                <option value="🎨">🎨 Palette</option>
+                                <option value="✨">✨ Eclat / Gloss</option>
+                                <option value="🌗">🌗 Ombré Hair</option>
+                            </optgroup>
+                            <optgroup label="Soins & Lissages">
+                                <option value="🧬">🧬 Kératine / ADN</option>
+                                <option value="🧪">🧪 Protéine / Chimie</option>
+                                <option value="💎">💎 Caviar / Luxe</option>
+                                <option value="💉">💉 Botox Capillaire</option>
+                                <option value="🧴">🧴 Shampoing / Soin</option>
+                            </optgroup>
+                            <optgroup label="Bien-être & Spa">
+                                <option value="🧖‍♀️">🧖‍♀️ Hammam</option>
+                                <option value="🛁">🛁 Bain</option>
+                                <option value="👑">👑 Royal</option>
+                                <option value="🌟">🌟 VIP</option>
+                                <option value="💆‍♀️">💆‍♀️ Massage</option>
+                                <option value="🧘‍♀️">🧘‍♀️ Détente</option>
+                                <option value="🕯️">🕯️ Bougie</option>
+                            </optgroup>
+                            <optgroup label="Ongles & Esthétique">
+                                <option value="💅">💅 Manucure</option>
+                                <option value="🦶">🦶 Pédicure</option>
+                                <option value="👁️">👁️ Sourcils / Cils</option>
+                                <option value="💄">💄 Maquillage</option>
+                                <option value="💋">💋 Lèvres</option>
+                                <option value="👰">👰 Mariée</option>
+                            </optgroup>
                         </select>
                     </div>
                     <input
