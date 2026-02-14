@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export default function AdminUsers() {
@@ -22,6 +22,18 @@ export default function AdminUsers() {
         }
     };
 
+    const handleRoleChange = async (userId, newRole) => {
+        if (!window.confirm(newRole === 'admin' ? "Voulez-vous vraiment nommer cet utilisateur administrateur ?" : "Voulez-vous retirer les droits d'administration ?")) return;
+
+        try {
+            await updateDoc(doc(db, 'users', userId), { role: newRole });
+            setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
+        } catch (error) {
+            console.error("Error updating role:", error);
+            alert("Erreur lors de la mise à jour du rôle.");
+        }
+    };
+
     if (loading) return <div>Chargement...</div>;
 
     return (
@@ -36,6 +48,7 @@ export default function AdminUsers() {
                             <th style={{ padding: '1rem' }}>Email</th>
                             <th style={{ padding: '1rem' }}>Téléphone</th>
                             <th style={{ padding: '1rem' }}>Inscrit le</th>
+                            <th style={{ padding: '1rem' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +63,25 @@ export default function AdminUsers() {
                                 <td style={{ padding: '1rem' }}>{user.email}</td>
                                 <td style={{ padding: '1rem' }}>{user.phone || '-'}</td>
                                 <td style={{ padding: '1rem' }}>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-'}</td>
+                                <td style={{ padding: '1rem' }}>
+                                    {user.role === 'admin' ? (
+                                        <button
+                                            onClick={() => handleRoleChange(user.id, 'client')}
+                                            className="btn btn-outline btn-sm"
+                                            style={{ borderColor: '#f87171', color: '#f87171', fontSize: '0.8rem' }}
+                                        >
+                                            Retirer Admin
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleRoleChange(user.id, 'admin')}
+                                            className="btn btn-outline btn-sm"
+                                            style={{ borderColor: 'var(--color-gold)', color: 'var(--color-gold)', fontSize: '0.8rem' }}
+                                        >
+                                            Promouvoir Admin
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
