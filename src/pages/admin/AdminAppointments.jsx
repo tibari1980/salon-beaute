@@ -84,10 +84,10 @@ export default function AdminAppointments() {
                         className="form-input"
                         style={{ width: '200px' }}
                     >
-                        <option value="all">Tous les statuts</option>
-                        <option value="confirmed">Confirmé</option>
-                        <option value="completed">Terminé</option>
-                        <option value="cancelled">Annulé</option>
+                        <option value="all" style={{ color: '#000' }}>{t('dashboard.allAppointments')}</option>
+                        <option value="confirmed" style={{ color: '#000' }}>{t('dashboard.status.confirmed')}</option>
+                        <option value="completed" style={{ color: '#000' }}>{t('dashboard.status.completed')}</option>
+                        <option value="cancelled" style={{ color: '#000' }}>{t('dashboard.status.cancelled')}</option>
                     </select>
                 </div>
             </div>
@@ -125,17 +125,22 @@ export default function AdminAppointments() {
                                     <select
                                         value={apt.status}
                                         onChange={(e) => handleStatusChange(apt.id, e.target.value)}
+                                        className="form-select"
                                         style={{
-                                            background: 'rgba(255,255,255,0.1)',
-                                            border: 'none',
-                                            color: 'white',
-                                            padding: '4px 8px',
-                                            borderRadius: '4px'
+                                            background: 'rgba(255,255,255,0.05)',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            color: 'var(--color-text)',
+                                            padding: '0.4rem 0.8rem',
+                                            borderRadius: 'var(--radius-sm)',
+                                            cursor: 'pointer',
+                                            outline: 'none',
+                                            width: '100%',
+                                            minWidth: '120px'
                                         }}
                                     >
-                                        <option value="confirmed">Confirmé</option>
-                                        <option value="completed">Terminé</option>
-                                        <option value="cancelled">Annulé</option>
+                                        <option value="confirmed" style={{ color: '#000' }}>{t('dashboard.status.confirmed')}</option>
+                                        <option value="completed" style={{ color: '#000' }}>{t('dashboard.status.completed')}</option>
+                                        <option value="cancelled" style={{ color: '#000' }}>{t('dashboard.status.cancelled')}</option>
                                     </select>
                                 </td>
                                 <td style={{ padding: '1rem' }}>

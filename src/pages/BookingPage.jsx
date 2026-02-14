@@ -304,7 +304,13 @@ export default function BookingPage() {
                             <>
                                 <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gray-300)' }}>{t('booking.selectService')}</h3>
                                 <div className="booking-services-grid">
-                                    {servicesLoading ? <div style={{ textAlign: 'center', width: '100%', padding: '2rem', color: 'var(--color-gray-500)' }}>Chargement des services...</div> : services.map((s) => (
+                                    {servicesLoading ? (
+                                        <div style={{ textAlign: 'center', width: '100%', padding: '2rem', color: 'var(--color-gray-500)' }}>Chargement des services...</div>
+                                    ) : services.length === 0 ? (
+                                        <div style={{ textAlign: 'center', width: '100%', padding: '2rem', color: 'var(--color-gray-500)' }}>
+                                            Aucun service disponible pour le moment.
+                                        </div>
+                                    ) : services.map((s) => (
                                         <div
                                             key={s.id}
                                             className={`booking-service-option ${selectedService?.id === s.id ? 'selected' : ''}`}
