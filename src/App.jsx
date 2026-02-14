@@ -17,8 +17,7 @@ import AdminAppointments from './pages/admin/AdminAppointments';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminTeam from './pages/admin/AdminTeam';
 import AdminReviews from './pages/admin/AdminReviews';
-
-
+import AdminSettings from './pages/admin/AdminSettings';
 
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
