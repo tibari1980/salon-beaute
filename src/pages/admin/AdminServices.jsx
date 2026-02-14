@@ -151,10 +151,39 @@ export default function AdminServices() {
                         type="text" placeholder="URL Image (Optionnel)" className="form-input"
                         value={formData.image || ''} onChange={e => setFormData({ ...formData, image: e.target.value })}
                     />
-                    <input
-                        type="text" placeholder="Icône (Emoji)" className="form-input"
-                        value={formData.icon} onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                        <label style={{ fontSize: '0.8rem', color: '#aaa' }}>Icône</label>
+                        <select
+                            className="form-input"
+                            value={formData.icon}
+                            onChange={e => setFormData({ ...formData, icon: e.target.value })}
+                            style={{ fontSize: '1.2rem' }}
+                        >
+                            <option value="">Choisir...</option>
+                            <option value="✂️">✂️ Ciseaux</option>
+                            <option value="💇‍♀️">💇‍♀️ Coiffure</option>
+                            <option value="🌊">🌊 Wavy / Brushing</option>
+                            <option value="🖌️">🖌️ Pinceau (Coloration)</option>
+                            <option value="🎨">🎨 Palette</option>
+                            <option value="✨">✨ Eclat / Balayage</option>
+                            <option value="🌗">🌗 Ombré</option>
+                            <option value="🧬">🧬 ADN (Lissage)</option>
+                            <option value="🧪">🧪 Tube (Chimie)</option>
+                            <option value="💎">💎 Diamant (Caviar)</option>
+                            <option value="💉">💉 Seringue (Botox)</option>
+                            <option value="🧖‍♀️">🧖‍♀️ Hammam</option>
+                            <option value="👑">👑 Couronne (Royal)</option>
+                            <option value="🌟">🌟 Etoile (VIP)</option>
+                            <option value="💆‍♀️">💆‍♀️ Massage</option>
+                            <option value="💅">💅 Ongles</option>
+                            <option value="🇷🇺">🇷🇺 Russe</option>
+                            <option value="🦶">🦶 Pieds</option>
+                            <option value="🛁">🛁 Bain</option>
+                            <option value="👁️">👁️ Oeil (Sourcils)</option>
+                            <option value="💄">💄 Rouge à lèvres</option>
+                            <option value="👰">👰 Mariée</option>
+                        </select>
+                    </div>
                     <input
                         type="text" placeholder="Catégorie" className="form-input"
                         value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
