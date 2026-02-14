@@ -118,6 +118,10 @@ export default function AdminServices() {
                         required
                     />
                     <input
+                        type="text" placeholder="URL Image (Optionnel)" className="form-input"
+                        value={formData.image || ''} onChange={e => setFormData({ ...formData, image: e.target.value })}
+                    />
+                    <input
                         type="text" placeholder="Icône (Emoji)" className="form-input"
                         value={formData.icon} onChange={e => setFormData({ ...formData, icon: e.target.value })}
                     />
@@ -148,9 +152,19 @@ export default function AdminServices() {
                         {services.map(service => (
                             <tr key={service.firebaseId} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                 <td style={{ padding: '1rem' }}>
-                                    <span style={{ marginRight: '0.5rem' }}>{service.icon}</span>
-                                    {t(`booking.services.${service.id}`) !== `booking.services.${service.id}` ? t(`booking.services.${service.id}`) : service.id}
-                                    <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)' }}>ID: {service.id}</div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        {service.image ? (
+                                            <img src={service.image} alt="" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                                        ) : (
+                                            <span style={{ fontSize: '1.5rem' }}>{service.icon}</span>
+                                        )}
+                                        <div>
+                                            <div style={{ fontWeight: 'bold' }}>
+                                                {t(`booking.services.${service.id}`) !== `booking.services.${service.id}` ? t(`booking.services.${service.id}`) : service.id}
+                                            </div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-500)' }}>ID: {service.id}</div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td style={{ padding: '1rem' }}>{service.category}</td>
                                 <td style={{ padding: '1rem', color: 'var(--color-gold)', fontWeight: 'bold' }}>{service.price} Dhs</td>

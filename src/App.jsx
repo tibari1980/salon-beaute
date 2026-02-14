@@ -15,6 +15,7 @@ import AdminRoute from './components/auth/AdminRoute';
 import AdminServices from './pages/admin/AdminServices';
 import AdminAppointments from './pages/admin/AdminAppointments';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminSettings from './pages/admin/AdminSettings';
 
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
@@ -46,6 +47,7 @@ export default function App() {
                     <Route path="appointments" element={<AdminAppointments />} />
                     <Route path="services" element={<AdminServices />} />
                     <Route path="users" element={<AdminUsers />} />
+                    <Route path="settings" element={<AdminSettings />} />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>

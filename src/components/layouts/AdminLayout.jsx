@@ -53,6 +53,13 @@ export default function AdminLayout() {
                     👥 {t('dashboard.team')}
                 </Link>
 
+                <Link
+                    to="/admin/settings"
+                    className={`dashboard-nav-item ${isActive('/admin/settings') ? 'active' : ''}`}
+                >
+                    ⚙️ Gestion Admin
+                </Link>
+
                 <div style={{ marginTop: 'auto', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                     <Link to="/" className="dashboard-nav-item">🏠 {t('dashboard.viewSite')}</Link>
                     <button

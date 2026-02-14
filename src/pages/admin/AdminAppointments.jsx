@@ -44,9 +44,16 @@ export default function AdminAppointments() {
         }
     };
 
-    const filteredAppointments = filter === 'all'
-        ? appointments
-        : appointments.filter(a => a.status === filter);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredAppointments = appointments.filter(a => {
+        const matchesStatus = filter === 'all' || a.status === filter;
+        const matchesSearch =
+            (a.userName?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (a.userEmail?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (a.ref?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+        return matchesStatus && matchesSearch;
+    });
 
     const getStatusLabel = (status) => t(`dashboard.status.${status}`) || status;
 
@@ -54,19 +61,35 @@ export default function AdminAppointments() {
 
     return (
         <div className="admin-page">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h2>Gestion des Rendez-vous</h2>
-                <select
-                    value={filter}
-                    onChange={e => setFilter(e.target.value)}
-                    className="form-input"
-                    style={{ maxWidth: '200px' }}
-                >
-                    <option value="all">Tous les statuts</option>
-                    <option value="confirmed">Confirmé</option>
-                    <option value="completed">Terminé</option>
-                    <option value="cancelled">Annulé</option>
-                </select>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2>Gestion des Rendez-vous</h2>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.5rem 1rem', borderRadius: '8px' }}>
+                        Total: {filteredAppointments.length}
+                    </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <input
+                        type="text"
+                        placeholder="Rechercher (Nom, Email, Réf...)"
+                        className="form-input"
+                        style={{ flex: 1, minWidth: '200px' }}
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <select
+                        value={filter}
+                        onChange={e => setFilter(e.target.value)}
+                        className="form-input"
+                        style={{ width: '200px' }}
+                    >
+                        <option value="all">Tous les statuts</option>
+                        <option value="confirmed">Confirmé</option>
+                        <option value="completed">Terminé</option>
+                        <option value="cancelled">Annulé</option>
+                    </select>
+                </div>
             </div>
 
             <div className="profile-card">
