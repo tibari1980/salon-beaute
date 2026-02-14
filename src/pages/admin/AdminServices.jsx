@@ -4,15 +4,45 @@ import { db } from '../../firebase';
 import { useTranslation } from 'react-i18next';
 
 // Hardcoded data for seeding
+// Hardcoded data for seeding
 const INITIAL_SERVICES = [
-    { id: 'coupe', price: 250, duration: '45 min', icon: '✂️', category: 'Coiffure' },
-    { id: 'lissage', price: 1200, duration: '3h', icon: '🧬', category: 'Coiffure' },
-    { id: 'coloration', price: 600, duration: '2h30', icon: '🎨', category: 'Coiffure' },
-    { id: 'hammam', price: 350, duration: '1h15', icon: '🧖‍♀️', category: 'Soins' },
-    { id: 'manucure', price: 250, duration: '1h', icon: '💅', category: 'Onglerie' },
-    { id: 'maquillage', price: 500, duration: '1h', icon: '💄', category: 'Beauté' },
-    { id: 'soin', price: 350, duration: '60 min', icon: '✨', category: 'Soins' },
-    { id: 'pedicure', price: 200, duration: '55 min', icon: '🦶', category: 'Onglerie' },
+    // Coiffure
+    { id: 'brushing_simple', price: 100, duration: '30 min', icon: '💇‍♀️', category: 'Coiffure' },
+    { id: 'brushing_wavy', price: 150, duration: '45 min', icon: '🌊', category: 'Coiffure' },
+    { id: 'coupe', price: 200, duration: '40 min', icon: '✂️', category: 'Coiffure' },
+    { id: 'coupe_brushing', price: 250, duration: '1h', icon: '💇‍♀️', category: 'Coiffure' },
+
+    // Coloration & Technique
+    { id: 'coloration_racines', price: 300, duration: '1h', icon: '🖌️', category: 'Coloration' },
+    { id: 'coloration_complete', price: 500, duration: '1h30', icon: '🎨', category: 'Coloration' },
+    { id: 'balayage', price: 800, duration: '3h', icon: '✨', category: 'Coloration' },
+    { id: 'ombre_hair', price: 900, duration: '3h30', icon: '🌗', category: 'Coloration' },
+
+    // Traitements & Lissages
+    { id: 'soin_botox', price: 600, duration: '1h30', icon: '💉', category: 'Soins Capillaires' },
+    { id: 'lissage_keratine', price: 1200, duration: '3h', icon: '🧬', category: 'Lissage' },
+    { id: 'lissage_proteine', price: 1500, duration: '3h', icon: '🧪', category: 'Lissage' },
+    { id: 'lissage_caviar', price: 1800, duration: '3h30', icon: '💎', category: 'Lissage' },
+
+    // Hammam & Spa
+    { id: 'hammam_beldi', price: 150, duration: '45 min', icon: '🧖‍♀️', category: 'Hammam' },
+    { id: 'hammam_royal', price: 300, duration: '1h', icon: '👑', category: 'Hammam' },
+    { id: 'hammam_vip', price: 500, duration: '1h30', icon: '🌟', category: 'Hammam' },
+    { id: 'massage_relaxant', price: 400, duration: '1h', icon: '💆‍♀️', category: 'Spa' },
+
+    // Onglerie
+    { id: 'manucure_simple', price: 80, duration: '30 min', icon: '💅', category: 'Onglerie' },
+    { id: 'manucure_russe', price: 200, duration: '1h', icon: '🇷🇺', category: 'Onglerie' },
+    { id: 'pedicure_simple', price: 100, duration: '45 min', icon: '🦶', category: 'Onglerie' },
+    { id: 'pedicure_spa', price: 250, duration: '1h', icon: '🛁', category: 'Onglerie' },
+    { id: 'pose_vernis_permanent', price: 150, duration: '45 min', icon: '💅', category: 'Onglerie' },
+    { id: 'pose_gel', price: 350, duration: '2h', icon: '💅', category: 'Onglerie' },
+
+    // Esthétique & Maquillage
+    { id: 'epilation_sourcils', price: 50, duration: '15 min', icon: '👁️', category: 'Esthétique' },
+    { id: 'epilation_visage', price: 100, duration: '30 min', icon: '💆‍♀️', category: 'Esthétique' },
+    { id: 'maquillage_soiree', price: 400, duration: '1h', icon: '💄', category: 'Maquillage' },
+    { id: 'maquillage_mariee', price: 1500, duration: '2h', icon: '👰', category: 'Maquillage' },
 ];
 
 export default function AdminServices() {
